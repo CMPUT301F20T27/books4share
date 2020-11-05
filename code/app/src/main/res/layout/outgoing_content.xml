@@ -7,19 +7,19 @@
     <TextView
         android:id="@+id/book_name2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:text="@string/text_book_name"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/book_status2"
             android:layout_width="33dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_book_status"
             android:textSize="20sp" />
@@ -27,7 +27,7 @@
         <TextView
             android:id="@+id/owner1"
             android:layout_width="4dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_owner"
             android:textSize="20sp" />
@@ -35,7 +35,7 @@
         <TextView
             android:id="@+id/owner_name"
             android:layout_width="127dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_owner_name"
             android:textSize="20sp" />

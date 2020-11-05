@@ -1,5 +1,8 @@
 // Zexin Cai is responsible for this part
 // This is to implement notification activities
+// It includes a list of incoming request and a list of outgoing request
+// If a status of incoming request is pending, you can click to enter the next activity.
+// If a status of outgoing request is accepted, you can click to enter the detail page.
 
 package com.example.books4share;
 
@@ -32,10 +35,10 @@ public class NotificationActivity extends AppCompatActivity {
         incomingList = findViewById(R.id.incoming_list);
         outgoingList = findViewById(R.id.outgoing_list);
 
-        String []bookName = {"book1", "book2", "book3"};
-        String []borrowerName = {"borrower1", "borrower2", "borrower3"};
-        String []bookStatus = {"Pending", "Accepted", "Declined"};
-        String []ownerName = {"owner1", "owner2", "owner3"};
+        String []bookName = {"book1", "book2", "book3", "book4", "book5"};
+        String []borrowerName = {"borrower1", "borrower2", "borrower3", "borrower4", "borrower5"};
+        String []bookStatus = {"Pending", "Accepted", "Declined", "Pending", "Accepted"};
+        String []ownerName = {"owner1", "owner2", "owner3", "owner4", "owner5"};
 
         inDataList = new ArrayList<>();
         outDataList = new ArrayList<>();

@@ -1,3 +1,6 @@
+// Zexin Cai is responsible for this part
+// Just like the customList in lab
+
 package com.example.books4share;
 
 import android.content.Context;

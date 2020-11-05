@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "274648180543",
+    "firebase_url": "https://books4share-eb4ca.firebaseio.com",
+    "project_id": "books4share-eb4ca",
+    "storage_bucket": "books4share-eb4ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274648180543:android:e9d73efb488fe3bbad158a",
+        "android_client_info": {
+          "package_name": "com.example.books4share"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274648180543-gqut9q42l8nm67jhu37j6ftpijpkms8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm3ynONZircY7MCDoe3QEqVfvd2gI4nEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274648180543-gqut9q42l8nm67jhu37j6ftpijpkms8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

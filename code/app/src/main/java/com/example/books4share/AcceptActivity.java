@@ -1,3 +1,8 @@
+// Zexin Cai is responsible for this part
+// It is to handle the incoming request of the user
+// The user can choose to accept, decline or back
+// There are no follow-up activities for accept and decline
+
 package com.example.books4share;
 
 import android.os.Bundle;
