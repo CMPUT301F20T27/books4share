@@ -24,6 +24,8 @@ import java.util.HashMap;
 
 public class Signup extends AppCompatActivity {
 
+    public static final String Email = "Email";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class Signup extends AppCompatActivity {
 
         final String TAG = "SignUp";
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Users");
 
         TextView SignTiltle = findViewById(R.id.signup_text);
@@ -65,6 +67,7 @@ public class Signup extends AppCompatActivity {
                 final String EnterEmail = SignupEmail.getText().toString();
                 final String EnterPassword = SignupPassword.getText().toString();
                 final String EnterConfirm = SignupConfirm.getText().toString();
+
                 if(EnterEmail.length()==0 || EnterPassword.length()==0 || EnterConfirm.length()==0){
                     Toast.makeText(getApplicationContext(), "Information Missing", Toast.LENGTH_SHORT).show();
                 }else{
@@ -72,7 +75,6 @@ public class Signup extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Password is not same", Toast.LENGTH_SHORT).show();
                         SignupConfirm.setText("");
                         SignupPassword.setText("");
-
                     } else{
                         HashMap<String,String> Data = new HashMap<>();
                         if(EnterEmail.length()>0 && EnterPassword.length()>0 && EnterConfirm.length()>0){
@@ -81,23 +83,27 @@ public class Signup extends AppCompatActivity {
                                     .document(EnterEmail)
                                     .set(Data)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    flag = 1;
-                                }
-                            })
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            flag = 1;
+                                        }
+                                    })
                                     .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error adding document", e);
+                                        }
+                                    });
+
+
 
                         }
+
                         if (flag == 1){
-                            Intent MainPage = new Intent(Signup.this, NotificationActivity.class);
-                            startActivityForResult(MainPage, 4);
+                            Intent ProfilePage = new Intent(Signup.this, Profile.class);
+                            ProfilePage.putExtra(Email, EnterEmail);
+                            startActivity(ProfilePage);
                         }
 
 

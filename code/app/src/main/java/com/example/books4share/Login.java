@@ -32,6 +32,7 @@ public class Login extends AppCompatActivity {
 
     FirebaseFirestore db;
 
+    public static final String SignEmail = "signEmail";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +56,24 @@ public class Login extends AppCompatActivity {
         FloatingActionButton loginExit = findViewById(R.id.loginback);
         Button Login = findViewById(R.id.login);
 
+        /**
+         * Set the button Listener
+         */
+
 
 
         Login.setOnClickListener(new View.OnClickListener() {
             int flag;
+
             @Override
             public void onClick(View v) {
                 String EnterEmail = LoginEmail.getText().toString();
                 String EnterPassword = LoginPassword.getText().toString();
+
                 if (EnterEmail.length() == 0 || EnterPassword.length() == 0){
                     Toast.makeText(getApplicationContext(), "Information Missing", Toast.LENGTH_SHORT).show();
+                    LoginEmail.setText("");
+                    LoginPassword.setText("");
                 }else{
                     Users.document(EnterEmail).get()
                             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -86,8 +95,9 @@ public class Login extends AppCompatActivity {
 
                     if (flag == 1){
 
-                        Intent MainPage = new Intent(Login.this, NotificationActivity.class);
-                        startActivityForResult(MainPage, 3);
+                        Intent ProfilePage = new Intent(Login.this, NotificationActivity.class);
+                        ProfilePage.putExtra(SignEmail, EnterEmail);
+                        startActivity(ProfilePage);
 
                     }
 
