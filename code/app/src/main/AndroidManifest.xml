@@ -12,6 +12,7 @@
         <activity android:name=".NotificationActivity" />
         <activity android:name=".AcceptActivity" />
         <activity android:name=".ViewRequestActivity" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
 
             <intent-filter>
