@@ -4,7 +4,7 @@ public class Book {
     private String title;
     private String author;
     private String isbn;
-    private String description;
+//    private String description;
     private Status currentStatus;
     // Waiting for User class to be completed
 
@@ -66,11 +66,11 @@ public class Book {
         this.currentStatus = currentStatus;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 }
