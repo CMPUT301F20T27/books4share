@@ -9,10 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationActivity" />
-        <activity android:name=".AcceptActivity" />
-        <activity android:name=".ViewRequestActivity" />
 
+        <activity android:name=".NotificationActivity"
+            android:label="Notification">
+        </activity>
+        <activity android:name=".AcceptActivity"
+            android:label="Pending request">
+        </activity>
+        <activity android:name=".ViewRequestActivity"
+            android:label="Accepted request">
+        </activity>
         <activity android:name=".Profile" />
 
 
