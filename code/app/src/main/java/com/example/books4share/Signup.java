@@ -101,9 +101,9 @@ public class Signup extends AppCompatActivity {
                         }
 
                         if (flag == 1){
-                            Intent ProfilePage = new Intent(Signup.this, Profile.class);
-                            ProfilePage.putExtra(Email, EnterEmail);
-                            startActivity(ProfilePage);
+                            Intent MainPage = new Intent(Signup.this, HomeActivity.class);
+                            MainPage.putExtra(Email, EnterEmail);
+                            startActivity(MainPage);
                         }
 
 
