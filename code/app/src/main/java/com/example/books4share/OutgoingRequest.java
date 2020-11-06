@@ -1,3 +1,6 @@
+// Zexin Cai is responsible for this part
+// This is a data about an outgoing request
+
 package com.example.books4share;
 
 import java.io.Serializable;

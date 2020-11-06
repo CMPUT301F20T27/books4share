@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/HeadPhoto"
+        android:layout_width="150dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/cardview_dark_background"
+        android:layout_centerHorizontal="true"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/MyProfileText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Profile"
+        android:textSize="30sp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="340dp"/>
+
+    <TextView
+        android:id="@+id/ShowName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@id/MyProfileText"
+        android:textSize="25sp"
+        android:text="Full Name"
+        android:layout_marginTop="400dp"
+
+        />
+
+    <TextView
+        android:id="@+id/ShowPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@id/MyProfileText"
+        android:textSize="25sp"
+        android:text="Phone"
+        android:layout_marginTop="440dp"
+
+        />
+
+
+    <TextView
+        android:id="@+id/ShowAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@id/MyProfileText"
+        android:textSize="25sp"
+        android:text="Address"
+        android:layout_marginTop="480dp"
+
+        />
+
+    <Button
+        android:id="@+id/EditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="550dp"
+        />
+
+    <Button
+        android:id="@+id/Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:layout_marginTop="670dp"
+        android:layout_marginLeft="20dp"/>
+
+    <Button
+        android:id="@+id/Explore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="670dp"
+        android:layout_toRightOf="@id/Home"
+        android:layout_marginLeft="10dp"
+        android:text="Explore" />
+
+    <Button
+        android:id="@+id/Notification"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="670dp"
+        android:layout_toRightOf="@id/Explore"
+        android:text="Notification" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PROFILE"
+        android:layout_marginTop="670dp"
+        android:layout_toRightOf="@id/Notification"/>
+
+
+</RelativeLayout>

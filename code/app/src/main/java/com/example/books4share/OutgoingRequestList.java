@@ -1,4 +1,9 @@
+// Zexin Cai is responsible for this part
+// Just like the customList in lab
+
 package com.example.books4share;
+// Zexin Cai is responsible for this part
+// Just like the customList in lab
 
 import android.content.Context;
 import android.view.LayoutInflater;

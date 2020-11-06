@@ -1,3 +1,6 @@
+// Zexin Cai is responsible for this part
+// This is to show detailed information about the user's accepted request.
+
 package com.example.books4share;
 
 import android.os.Bundle;
