@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,11 @@ public class NotificationActivity extends AppCompatActivity {
     ArrayList<IncomingRequest> inDataList;
     ArrayAdapter<OutgoingRequest> outAdapter;
     ArrayList<OutgoingRequest> outDataList;
+
+    Button b1;
+    Button b2;
+    Button b3;
+    Button b4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +85,33 @@ public class NotificationActivity extends AppCompatActivity {
                     Intent intent = new Intent(NotificationActivity.this, ViewRequestActivity.class);
                     startActivity(intent);
                 }
+            }
+        });
+
+        b1 = findViewById(R.id.button);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NotificationActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        b2 = findViewById(R.id.button2);
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NotificationActivity.this, SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        b4 = findViewById(R.id.button4);
+        b4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NotificationActivity.this, Profile.class);
+                startActivity(intent);
             }
         });
     }

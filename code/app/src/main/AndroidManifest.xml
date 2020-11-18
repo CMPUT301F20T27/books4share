@@ -22,8 +22,9 @@
             android:label="Accepted request">
         </activity>
         <activity android:name=".Profile" />
-
-
+        <activity android:name=".SearchActivity"
+            android:label="Search">
+        </activity>
         <activity android:name=".Login"
             android:parentActivityName=".MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
