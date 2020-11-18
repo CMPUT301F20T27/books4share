@@ -7,17 +7,20 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -50,6 +53,8 @@ public class Profile extends AppCompatActivity{
     Button explore;
 
     private String UserId;
+
+    BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,39 @@ public class Profile extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(Profile.this, NotificationActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Intent a = new Intent(Profile.this, HomeActivity.class);
+                        startActivity(a);
+                        break;
+
+                    case R.id.navigation_explore:
+                        Intent b = new Intent(Profile.this, SearchActivity.class);
+                        startActivity(b);
+                        break;
+
+                    case R.id.navigation_notification:
+                        Intent c = new Intent(Profile.this, NotificationActivity.class);
+                        startActivity(c);
+                        break;
+
+                    case R.id.navigation_Me:
+                        Intent d = new Intent(Profile.this, Profile.class);
+                        startActivity(d);
+                        break;
+
+                }
+
+                return false;
+
             }
         });
     }
