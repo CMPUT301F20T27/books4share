@@ -71,6 +71,22 @@ public class Profile extends AppCompatActivity{
             }
         });
 
+
+    }
+
+    /**
+     * this method is used to initialize the layout views
+     */
+    public void initView(){
+        fullName = findViewById(R.id.ShowName);
+        PhoneNum = findViewById(R.id.ShowPhone);
+        AddressLoc = findViewById(R.id.ShowAddress);
+        image = findViewById(R.id.HeadPhoto);
+        Edit = findViewById(R.id.EditProfile);
+        ProfileText = findViewById(R.id.MyProfileText);
+        ProfileText.setText("My Profile");
+        Logout = findViewById(R.id.btn_SignOut);
+
         home = findViewById(R.id.Home);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,31 +115,6 @@ public class Profile extends AppCompatActivity{
         });
     }
 
-    /**
-     * this method is used to initialize the layout views
-     */
-    public void initView(){
-        fullName = findViewById(R.id.ShowName);
-        PhoneNum = findViewById(R.id.ShowPhone);
-        AddressLoc = findViewById(R.id.ShowAddress);
-        image = findViewById(R.id.HeadPhoto);
-        Edit = findViewById(R.id.EditProfile);
-        ProfileText = findViewById(R.id.MyProfileText);
-        ProfileText.setText("My Profile");
-        Logout = findViewById(R.id.btn_SignOut);
-        /*
-        home = findViewById(R.id.Home);
-        notif = findViewById(R.id.Notification);
-        notif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        explore = findViewById(R.id.Explore);
-        */
-    }
-
 
     /**
      * this method is used to show the profile information from Cloud Firestore
@@ -134,7 +125,7 @@ public class Profile extends AppCompatActivity{
        FirebaseUser user = myAuth.getCurrentUser();
        if (user != null) {
            UserId = user.getUid();
-           Users.addSnapshotListener(new EventListener<QuerySnapshot>() {
+           Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
                @Override
                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
@@ -146,7 +137,6 @@ public class Profile extends AppCompatActivity{
                        fullName.setText(Name);
                        PhoneNum.setText(Phone);
                        AddressLoc.setText(Address);
-
                    }
                }
            });

@@ -103,7 +103,7 @@ public class ProfileFragment extends DialogFragment {
                                     Data.put("Name", NewName);
                                     Data.put("Phone", NewPhone);
                                     Data.put("Address", NewAddress);
-                                    Users.document(UserId).set(Data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    Users.document(UserId).collection("Profile").document("Information").set(Data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d("Profile Fragment", "DocumentSnapshot successfully written!");

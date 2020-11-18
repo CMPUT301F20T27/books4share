@@ -21,20 +21,22 @@
         <activity android:name=".ViewRequestActivity"
             android:label="Accepted request">
         </activity>
+
         <activity android:name=".Profile" />
+
+        <activity android:name=".SignInfo" />
+
         <activity android:name=".SearchActivity"
             android:label="Search">
         </activity>
         <activity android:name=".Login"
             android:parentActivityName=".MainActivity">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".Signup"
             android:parentActivityName=".MainActivity">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

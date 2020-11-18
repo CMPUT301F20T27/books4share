@@ -72,15 +72,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home"
-        android:layout_marginTop="670dp"
+        android:layout_marginTop="550dp"
         android:layout_marginLeft="20dp"/>
 
     <Button
         android:id="@+id/Explore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="670dp"
         android:layout_toRightOf="@id/Home"
+        android:layout_alignBottom="@+id/Home"
         android:layout_marginLeft="10dp"
         android:text="Explore" />
 
@@ -88,8 +88,7 @@
         android:id="@+id/Notification"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="670dp"
+        android:layout_alignBottom="@+id/Home"
         android:layout_toRightOf="@id/Explore"
         android:text="Notification" />
 
@@ -98,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PROFILE"
-        android:layout_marginTop="670dp"
+        android:layout_alignBottom="@+id/Home"
         android:layout_toRightOf="@id/Notification"/>
 
     <Button
