@@ -35,11 +35,6 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
 
     String word = "";
 
-    Button b1;
-    Button b2;
-    Button b3;
-    Button b4;
-
     BottomNavigationView bottomNavigation;
 
     @Override
@@ -118,33 +113,6 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
                         Toast.makeText(SearchActivity.this, "This book has been borrowed by others", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
-
-        b1 = findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b3 = findViewById(R.id.button3);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, NotificationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b4 = findViewById(R.id.button4);
-        b4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, Profile.class);
-                startActivity(intent);
             }
         });
 

@@ -33,11 +33,6 @@ public class NotificationActivity extends AppCompatActivity {
     ArrayAdapter<OutgoingRequest> outAdapter;
     ArrayList<OutgoingRequest> outDataList;
 
-    Button b1;
-    Button b2;
-    Button b3;
-    Button b4;
-
     BottomNavigationView bottomNavigation;
 
     @Override
@@ -90,33 +85,6 @@ public class NotificationActivity extends AppCompatActivity {
                     Intent intent = new Intent(NotificationActivity.this, ViewRequestActivity.class);
                     startActivity(intent);
                 }
-            }
-        });
-
-        b1 = findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b2 = findViewById(R.id.button2);
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b4 = findViewById(R.id.button4);
-        b4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NotificationActivity.this, Profile.class);
-                startActivity(intent);
             }
         });
 
