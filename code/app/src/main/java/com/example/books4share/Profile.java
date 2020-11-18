@@ -48,10 +48,6 @@ public class Profile extends AppCompatActivity{
 
     private ProfileUser FragmentUser = new ProfileUser();
 
-    Button home;
-    Button notif;
-    Button explore;
-
     private String UserId;
 
     BottomNavigationView bottomNavigation;
@@ -91,33 +87,6 @@ public class Profile extends AppCompatActivity{
         ProfileText = findViewById(R.id.MyProfileText);
         ProfileText.setText("My Profile");
         Logout = findViewById(R.id.btn_SignOut);
-
-        home = findViewById(R.id.Home);
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Profile.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        explore = findViewById(R.id.Explore);
-        explore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Profile.this, SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        notif = findViewById(R.id.Notification);
-        notif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Profile.this, NotificationActivity.class);
-                startActivity(intent);
-            }
-        });
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
