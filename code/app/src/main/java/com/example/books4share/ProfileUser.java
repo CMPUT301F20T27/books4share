@@ -7,9 +7,6 @@ public class ProfileUser implements Serializable {
     private String phone;
     private String address;
 
-    public ProfileUser() {
-    }
-
     public ProfileUser(String userName, String phone, String address) {
 
         this.userName = userName;

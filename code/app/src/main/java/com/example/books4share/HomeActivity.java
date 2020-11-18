@@ -1,6 +1,10 @@
-// Weijia Zhang and Philip Wang are responsible for this part
-// This is to implement all functions about book
-
+/**
+ * Problem:
+ * 1. (fixed) ListView doesn't refresh after adding a new book. Potential cause: filter doesn't refresh
+ *    after data set has changed.
+ *
+ * 2. Cannot map OnClickListener to each button in the ListView.
+ */
 package com.example.books4share;
 
 import android.os.Bundle;
