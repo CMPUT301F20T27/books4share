@@ -4,9 +4,10 @@ public class Book {
     private String title;
     private String author;
     private String isbn;
-//    private String description;
+    //private String description;
     private Status currentStatus;
     // Waiting for User class to be completed
+    private Users usersId;
 
 
 
@@ -15,12 +16,14 @@ public class Book {
     }
 
 
+
     public Book(String title, String author, String isbn){
 
         this.author = author;
         this.title = title;
         this.isbn = isbn;
         this.currentStatus = Status.AVAILABLE;
+        //this.usersId = usersId.getUid();
 
     }
 
@@ -30,6 +33,7 @@ public class Book {
         this.title = title;
         this.isbn = isbn;
         this.currentStatus = status;
+        //this.users = users;
 
     }
 

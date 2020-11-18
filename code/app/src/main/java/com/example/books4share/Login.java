@@ -17,22 +17,35 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
-
-import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
+    public static final String LoginUserEmail = "LoginEmail";
 
-    FirebaseFirestore db;
 
-    public static final String SignEmail = "signEmail";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference Users = db.collection("Users");
+
+    private String TAG = "LoginActivity";
+
+    private TextView LoginTiltle;
+    private TextView LoginEmailText;
+    private TextView LoginPasswordText;
+    private EditText LoginEmail;
+    private EditText LoginPassword;
+    private FloatingActionButton loginExit;
+    private Button Login;
+
+    private FirebaseAuth myAuth = FirebaseAuth.getInstance();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,31 +53,35 @@ public class Login extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        final String TAG = "LoginActivity";
+        initView();
+        LoginValidation();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference Users = db.collection("Users");
+        loginExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 
+    /**
+     * This method is to initialize the views
+     */
+    public void initView(){
+        LoginTiltle = findViewById(R.id.login_text);
+        LoginEmailText = findViewById(R.id.text_email);
+        LoginPasswordText = findViewById((R.id.text_password));
+        LoginEmail = findViewById(R.id.editTextTextEmailAddress);
+        LoginPassword = findViewById(R.id.editTextTextPassword);
+        loginExit = findViewById(R.id.loginback);
+        Login = findViewById(R.id.login);
+    }
 
-        TextView LoginTiltle = findViewById(R.id.login_text);
-        TextView LoginEmailText = findViewById(R.id.text_email);
-        TextView LoginPasswordText = findViewById((R.id.text_password));
-
-        final EditText LoginEmail = findViewById(R.id.editTextTextEmailAddress);
-        final EditText LoginPassword = findViewById(R.id.editTextTextPassword);
-
-        FloatingActionButton loginExit = findViewById(R.id.loginback);
-        Button Login = findViewById(R.id.login);
-
-        /**
-         * Set the button Listener
-         */
-
-
-
+    /**
+     * Test whether the input format is all correct
+     */
+    public void LoginValidation(){
         Login.setOnClickListener(new View.OnClickListener() {
-            int flag;
-
             @Override
             public void onClick(View v) {
                 String EnterEmail = LoginEmail.getText().toString();
@@ -75,43 +92,35 @@ public class Login extends AppCompatActivity {
                     LoginEmail.setText("");
                     LoginPassword.setText("");
                 }else{
-                    Users.document(EnterEmail).get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                            flag = 1;
-                                        } else {
-                                            Log.d(TAG, "No such document");
-                                        }
-                                    } else {
-                                        Log.d(TAG, "get failed with ", task.getException());
-                                    }
-                                }
-                            });
-
-                    if (flag == 1){
-
-                        Intent ProfilePage = new Intent(Login.this, NotificationActivity.class);
-                        ProfilePage.putExtra(SignEmail, EnterEmail);
-                        startActivity(ProfilePage);
-
-                    }
-
-
+                    Login(EnterEmail, EnterPassword);
                 }
+            }
+        });
+    }
 
-            }
-        });
-        loginExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    /**
+     * Login in through the Firebase Authorization
+     * @param strEmail
+     * @param strPassword
+     */
+    public void Login(String strEmail, String strPassword){
+        myAuth.signInWithEmailAndPassword(strEmail, strPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = myAuth.getCurrentUser();
+                            Intent intent = new Intent(Login.this, Profile.class);
+                            startActivity(intent);
+                        }else{
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(Login.this, "Email or Password is invalid. Failed to login",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
 }
 

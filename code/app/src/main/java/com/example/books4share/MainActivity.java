@@ -1,3 +1,6 @@
+// Shanshan Wei is responsible for this part
+// This is to implement activities about Log in and Sign up
+
 package com.example.books4share;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -22,30 +24,21 @@ public class MainActivity extends AppCompatActivity {
     TextView Sentence;
     Button MainLogin;
     Button MainSignup;
+    Button testButton;
 
-    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button newButton = findViewById(R.id.new_button);
 
-        newButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
         ProjectName = findViewById(R.id.project_name);
         Team = findViewById(R.id.team_name);
         Sentence = findViewById(R.id.statement);
         MainLogin = findViewById(R.id.login_button);
         MainSignup = findViewById(R.id.signup_button);
 
-
-        db = FirebaseFirestore.getInstance();
+        testButton = findViewById(R.id.new_button);
 
         MainLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testAct = new Intent(MainActivity.this, NotificationActivity.class);
+                startActivity(testAct);
+            }
+        });
     }
 }

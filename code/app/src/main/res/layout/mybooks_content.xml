@@ -52,17 +52,17 @@
 
 
 
-        <TextView
-            android:id="@+id/textView_book_isbn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ISBN: 978-1-57731-152-2"
-            android:gravity="left"
-            android:paddingLeft="15dp"
+    <TextView
+        android:id="@+id/textView_book_isbn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ISBN: 978-1-57731-152-2"
+        android:gravity="left"
+        android:paddingLeft="15dp"
 
-            android:textSize="15dp">
+        android:textSize="15dp">
 
-        </TextView>
+    </TextView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
