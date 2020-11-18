@@ -76,8 +76,6 @@ public class SignInfo extends AppCompatActivity {
         inputAddress = findViewById(R.id.editTextAddress);
         Confirm = findViewById(R.id.ConfirmButton);
         Clear = findViewById(R.id.ClearButton);
-
-
     }
 
     /**
@@ -93,11 +91,12 @@ public class SignInfo extends AppCompatActivity {
         ProfileData.put("Name", strName);
         ProfileData.put("Phone", strPhone);
         ProfileData.put("Address", strAddress);
-        Users.document(UserId).set(ProfileData).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Users.document(UserId).collection("Profile")
+                .document("Information")
+                .set(ProfileData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Profile Update", "DocumentSnapshot successfully written!");
-
                 Intent intent = new Intent(SignInfo.this, Profile.class);
                 startActivity(intent);
             }
