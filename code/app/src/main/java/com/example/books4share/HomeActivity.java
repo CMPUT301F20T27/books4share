@@ -5,20 +5,39 @@ package com.example.books4share;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
 import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
         AddBookFragment.OnFragmentInteractionListener {
@@ -30,6 +49,18 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     Spinner filterSpinner;
     ArrayAdapter<CharSequence> spinnerAdapter;
     BottomNavigationView bottomNavigation;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();;
+    CollectionReference BookList = db.collection("BookList");
+    FirebaseAuth BookAuth = FirebaseAuth.getInstance();
+
+    final String TAG =  "Add";
+    final String Flag = "Delete";
+
+    Book chosenBook;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +105,14 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         bookDataList.add(somebook4);
 
         Button addBook = findViewById(R.id.button_add_book);
+
+
+
         addBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new AddBookFragment(false).show(getSupportFragmentManager(), "ADD_BOOK");
+
             }
         });
 
@@ -85,10 +120,12 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 new AddBookFragment(true, bookAdapter.getItem(pos)).show(getSupportFragmentManager(), "EDIT_BOOK");
+
+                chosenBook = bookAdapter.getItem(pos);
                 return true;
             }
         });
-
+      
         bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -122,9 +159,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-
-
-
     }
 
     @Override
@@ -141,16 +175,60 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onOkPressed(Book newBook) {
-        if (bookAdapter.getPosition(newBook) == -1)
-            bookAdapter.add(newBook);
+    public void onOkPressed(final Book newBook) {
+        if (bookAdapter.getPosition(newBook) == -1){
+
+                BookList.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
+                            FirebaseFirestoreException error) {
+                        bookDataList.clear();
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+
+                            Log.d(TAG, String.valueOf(doc.getData().get("Title")));
+
+                            String title = doc.getId();
+                            String author = (String) doc.getData().get("Author");
+                            String description = (String) doc.getData().get("Isbn");
+
+                            bookDataList.add(new Book(title,author,description));
+
+                        }
+                        bookAdapter.notifyDataSetChanged();
+
+                    }
+                });
+            }
+
+
+
     }
+
+
 
     @Override
     public void onDeletePressed(Book book) {
-        bookAdapter.remove(book);
+        //bookAdapter.remove(chosenBook);
+
+        BookList.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
+
+                    Log.d(Flag,String.valueOf(doc.getData().get("Title")));
+
+                    bookDataList.remove(chosenBook);
+
+
+                }
+
+            }
+        });
+
         book = null;
     }
 
-
+    public Book getChosenBook() {
+        return chosenBook;
+    }
 }
