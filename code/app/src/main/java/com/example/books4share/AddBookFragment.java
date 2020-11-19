@@ -39,9 +39,7 @@ public class AddBookFragment extends DialogFragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();;
     CollectionReference BookList = db.collection("BookList");
     final String TAG =  "Add";
-
-
-
+    final String Flag = "Delete";
 
 
     public AddBookFragment(boolean editing) {
@@ -59,6 +57,7 @@ public class AddBookFragment extends DialogFragment {
     public interface OnFragmentInteractionListener {
         void onOkPressed(Book newBook);
         void onDeletePressed(Book book);
+        Book getChosenBook();
     }
 
     @Override
@@ -154,7 +153,28 @@ public class AddBookFragment extends DialogFragment {
                     .setNeutralButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            listener.onDeletePressed(bookEditing);
+                            Book deleteBook = listener.getChosenBook();
+
+                            BookList
+                                    .document(deleteBook.getTitle())
+                                    .delete()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                              @Override
+                                                              public void onSuccess(Void aVoid) {
+                                                                  Log.d(Flag,"DocumentSnapshot successfully deleted!");
+                                                              }
+                                                          })
+                                    .addOnFailureListener(new OnFailureListener(){
+
+                                                              @Override
+                                                              public void onFailure(@NonNull Exception e) {
+                                                                  Log.d(Flag,"Error deleting document", e);
+
+                                                              }
+                                                          });
+
+
+                            listener.onDeletePressed(deleteBook);
                         }
                     })
                     .setNegativeButton("Cancel", null)

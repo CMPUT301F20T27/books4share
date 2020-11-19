@@ -55,6 +55,9 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     FirebaseAuth BookAuth = FirebaseAuth.getInstance();
 
     final String TAG =  "Add";
+    final String Flag = "Delete";
+
+    Book chosenBook;
 
 
 
@@ -110,8 +113,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View view) {
                 new AddBookFragment(false).show(getSupportFragmentManager(), "ADD_BOOK");
 
-
-
             }
         });
 
@@ -119,6 +120,8 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 new AddBookFragment(true, bookAdapter.getItem(pos)).show(getSupportFragmentManager(), "EDIT_BOOK");
+
+                chosenBook = bookAdapter.getItem(pos);
                 return true;
             }
         });
@@ -205,9 +208,27 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onDeletePressed(Book book) {
-        bookAdapter.remove(book);
+        //bookAdapter.remove(chosenBook);
+
+        BookList.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots){
+
+                    Log.d(Flag,String.valueOf(doc.getData().get("Title")));
+
+                    bookDataList.remove(chosenBook);
+
+
+                }
+
+            }
+        });
+
         book = null;
     }
 
-
+    public Book getChosenBook() {
+        return chosenBook;
+    }
 }
