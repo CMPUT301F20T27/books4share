@@ -3,8 +3,12 @@
 
 package com.example.books4share;
 
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
+import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +48,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     Spinner filterSpinner;
     ArrayAdapter<CharSequence> spinnerAdapter;
+    BottomNavigationView bottomNavigation;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();;
     CollectionReference BookList = db.collection("BookList");
@@ -69,6 +78,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         bookAdapter = new BookList(this, bookDataList);
 
         bookList.setAdapter(bookAdapter);
+
 
         Book somebook = new Book("The Power of Now",
                 "Eckhart Tolle",
@@ -110,6 +120,39 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 new AddBookFragment(true, bookAdapter.getItem(pos)).show(getSupportFragmentManager(), "EDIT_BOOK");
                 return true;
+            }
+        });
+      
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Intent a = new Intent(HomeActivity.this, HomeActivity.class);
+                        startActivity(a);
+                        break;
+
+                    case R.id.navigation_explore:
+                        Intent b = new Intent(HomeActivity.this, SearchActivity.class);
+                        startActivity(b);
+                        break;
+
+                    case R.id.navigation_notification:
+                        Intent c = new Intent(HomeActivity.this, NotificationActivity.class);
+                        startActivity(c);
+                        break;
+
+                    case R.id.navigation_Me:
+                        Intent d = new Intent(HomeActivity.this, Profile.class);
+                        startActivity(d);
+                        break;
+
+                }
+
+                return false;
+
             }
         });
 
@@ -165,4 +208,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         bookAdapter.remove(book);
         book = null;
     }
+
+
 }

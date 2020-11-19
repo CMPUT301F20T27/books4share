@@ -5,6 +5,7 @@ package com.example.books4share;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +14,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -31,10 +35,7 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
 
     String word = "";
 
-    Button b1;
-    Button b2;
-    Button b3;
-    Button b4;
+    BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,32 +116,39 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
             }
         });
 
-        b1 = findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
-                startActivity(intent);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Intent a = new Intent(SearchActivity.this, HomeActivity.class);
+                        startActivity(a);
+                        break;
+
+                    case R.id.navigation_explore:
+                        Intent b = new Intent(SearchActivity.this, SearchActivity.class);
+                        startActivity(b);
+                        break;
+
+                    case R.id.navigation_notification:
+                        Intent c = new Intent(SearchActivity.this, NotificationActivity.class);
+                        startActivity(c);
+                        break;
+
+                    case R.id.navigation_Me:
+                        Intent d = new Intent(SearchActivity.this, Profile.class);
+                        startActivity(d);
+                        break;
+
+                }
+
+                return false;
+
             }
         });
 
-        b3 = findViewById(R.id.button3);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, NotificationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b4 = findViewById(R.id.button4);
-        b4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, Profile.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
