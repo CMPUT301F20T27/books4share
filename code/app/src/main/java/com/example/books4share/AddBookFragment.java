@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +14,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class AddBookFragment extends DialogFragment {
     private EditText titleBox;
     private EditText authorBox;
@@ -20,6 +33,16 @@ public class AddBookFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private boolean editing;
     private Book bookEditing;
+
+    ArrayList<Book> NewDataList;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();;
+    CollectionReference BookList = db.collection("BookList");
+    final String TAG =  "Add";
+
+
+
+
 
     public AddBookFragment(boolean editing) {
         super();
@@ -48,6 +71,8 @@ public class AddBookFragment extends DialogFragment {
                     + " must implement OnFragmentInteractionListener");
     }
 
+
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -74,7 +99,40 @@ public class AddBookFragment extends DialogFragment {
                                 String author = authorBox.getText().toString();
                                 String description = isbnBox.getText().toString();
 
-                                listener.onOkPressed(new Book(title, author, description));
+                                HashMap<String, String> BookData = new HashMap<>();
+
+                                BookData.put("Title",title);
+                                BookData.put("Author",author);
+                                BookData.put("Isbn",description);
+
+                                BookList
+                                        .document(title)
+                                        .set(BookData)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>(){
+
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "Data has been added successfully!");
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                                Log.d(TAG, "Data could not be added!" + e.toString());
+
+                                            }
+                                        });
+
+                                listener.onOkPressed(new Book(title,author,description));
+
+                                titleBox.setText("");
+                                authorBox.setText("");
+                                isbnBox.setText("");
+
+
+
                             } else {
                                 new AlertDialog.Builder(getContext()).setMessage(checkInput())
                                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -120,6 +178,8 @@ public class AddBookFragment extends DialogFragment {
                         }
                     }).create();
         }
+
+
     }
 
     /* Check if all inputs are valid*/
