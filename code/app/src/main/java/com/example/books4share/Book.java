@@ -1,5 +1,7 @@
 package com.example.books4share;
 
+import android.graphics.drawable.Drawable;
+
 public class Book {
     private String title;
     private String author;
@@ -8,6 +10,10 @@ public class Book {
     private Status currentStatus;
     // Waiting for User class to be completed
     private Users usersId;
+    private Users owner;
+    private Users borrower;
+    private IncomingRequest request;
+    private Drawable image;
 
 
 
@@ -24,16 +30,18 @@ public class Book {
         this.isbn = isbn;
         this.currentStatus = Status.AVAILABLE;
         //this.usersId = usersId.getUid();
+        this.owner = owner;
 
     }
 
-    public Book(String title, String author, String isbn, Status status){
+    public Book(String title, String author, String isbn, Status status,Users owner,Users borrower){
 
         this.author = author;
         this.title = title;
         this.isbn = isbn;
         this.currentStatus = status;
-        //this.users = users;
+        this.owner = owner;
+        this.borrower = borrower;
 
     }
 
@@ -70,7 +78,39 @@ public class Book {
         this.currentStatus = currentStatus;
     }
 
-//    public String getDescription() {
+    public Users getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Users owner) {
+        this.owner = owner;
+    }
+
+    public Users getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(Users borrower) {
+        this.borrower = borrower;
+    }
+
+    public IncomingRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(IncomingRequest request) {
+        this.request = request;
+    }
+
+    public Drawable getImage() {
+        return image;
+    }
+
+    public void setImage(Drawable image) {
+        this.image = image;
+    }
+
+    //    public String getDescription() {
 //        return description;
 //    }
 //
