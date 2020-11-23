@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -61,6 +63,8 @@ public class NotificationActivity extends AppCompatActivity {
 
         incomingList.setAdapter(inAdapter);
         outgoingList.setAdapter(outAdapter);
+
+
 
         incomingList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,5 +124,14 @@ public class NotificationActivity extends AppCompatActivity {
 
             }
         });
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();;
+        CollectionReference BookList = db.collection("BookList");
+        final String TAG =  "Requesting";
+
+        //DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+
+
     }
 }
