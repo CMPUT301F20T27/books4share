@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 "Eckhart Tolle",
                 "978-1-57731-152-2");
 
-        Book somebook2 = new Book("The Power of Now",
+        /*Book somebook2 = new Book("The Power of Now",
                 "Eckhart Tolle",
                 "978-1-57731-152-2", Book.Status.ACCEPTED);
 
@@ -97,12 +97,12 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Book somebook4 = new Book("The Power of Now",
                 "Eckhart Tolle",
-                "978-1-57731-152-2", Book.Status.BORROWED);
+                "978-1-57731-152-2", Book.Status.BORROWED);*/
 
         bookDataList.add(somebook);
-        bookDataList.add(somebook2);
-        bookDataList.add(somebook3);
-        bookDataList.add(somebook4);
+        //bookDataList.add(somebook2);
+        //bookDataList.add(somebook3);
+        //bookDataList.add(somebook4);
 
         Button addBook = findViewById(R.id.button_add_book);
 

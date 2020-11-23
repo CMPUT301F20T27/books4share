@@ -34,13 +34,13 @@ public class Book {
 
     }
 
-    public Book(String title, String author, String isbn, Status status,Users owner,Users borrower){
+    public Book(String title, String author, String isbn, Status status,Users borrower){
 
         this.author = author;
         this.title = title;
         this.isbn = isbn;
         this.currentStatus = status;
-        this.owner = owner;
+        //this.owner = owner;
         this.borrower = borrower;
 
     }
