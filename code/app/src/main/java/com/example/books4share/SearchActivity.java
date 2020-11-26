@@ -5,6 +5,7 @@ package com.example.books4share;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,36 +18,90 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements RequestFragment.OnFragmentInteractionListener {
 
+    private static final String TAG ="dazhi" ;
     ListView bookList;
     Button btnSearch;
     ArrayAdapter<SearchBooks> bookAdapter;
     ArrayList<SearchBooks> bookDataList;
 
-    String[] titles = {"Harry Porter", "The Republic", "The Odyssey", "Lord of the Flies"};
-    String[] authors = {"J.K. Rowling", "Plato", "Homer", "William"};
-    String[] ISBNs = {"1", "2", "3", "4"};
-    String[] status = {"Borrowed", "Requested", "Available", "Available"};
+    ArrayList<String> tt=new ArrayList<>();
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();;
+    CollectionReference BookList = db.collection("BookList");
+
+    String[] titles ={"Harry"};
+    String[] authors = {"no"};
+    String[] ISBNs = {"123"};
+    String[] status = {"available"};
 
     String word = "";
-
-    Button b1;
-    Button b2;
-    Button b3;
-    Button b4;
 
     BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //Add a new book to cloud
+        HashMap<String, String> BookData = new HashMap<>();
+        BookData.put("Title","test1");
+        BookData.put("Author","test1");
+        BookData.put("Isbn","test1");
+        BookList
+                .document("test1")
+                .set(BookData)
+                .addOnSuccessListener(new OnSuccessListener<Void>(){
+
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Data has been added successfully!");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+
+                    }
+                });
+        //set the book as title
+        db.collection("BookList")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for(DocumentSnapshot document:task.getResult()){
+                                tt.add(document.getId());
+                                Toast.makeText(SearchActivity.this, tt.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
 
         //Put all books into an ArrayList
         bookList=findViewById(R.id.bookList);
@@ -54,7 +109,6 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
         for(int i=0;i<titles.length;i++){
             bookDataList.add(new SearchBooks(titles[i], authors[i], ISBNs[i], status[i]));
         }
-
         bookAdapter=new SearchBookList(this, bookDataList);
         bookList.setAdapter(bookAdapter);
 
@@ -118,33 +172,6 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
                         Toast.makeText(SearchActivity.this, "This book has been borrowed by others", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
-
-        b1 = findViewById(R.id.button);
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b3 = findViewById(R.id.button3);
-        b3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, NotificationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        b4 = findViewById(R.id.button4);
-        b4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SearchActivity.this, Profile.class);
-                startActivity(intent);
             }
         });
 

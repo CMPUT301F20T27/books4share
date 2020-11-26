@@ -1,124 +1,160 @@
-package com.example.books4share;
+// Shanshan Wei is responsible for this part
+// This is to implement the user profile
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+package com.example.books4share.fragment;
+
+import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.fragment.app.Fragment;
+
+
+import com.example.books4share.ProfileDialogFragment;
+import com.example.books4share.ProfileUser;
+import com.example.books4share.R;
+import com.example.books4share.WelcomeActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
-public class ProfileFragment extends DialogFragment {
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+public class ProfileFragment extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference Users = db.collection("Users");
     FirebaseAuth myAuth = FirebaseAuth.getInstance();
-    FirebaseUser user = myAuth.getCurrentUser();
-    String UserId = user.getUid();
 
-    private EditText name;
-    private EditText phone;
-    private EditText address;
-    private ProfileUser Puser;
+    private TextView fullName;
+    private TextView PhoneNum;
+    private TextView AddressLoc;
+    private ImageView image;
+    private TextView ProfileText;
+    Button Edit;
+    Button Logout;
 
-    /**
-     * This method is used to get the object bundle data from the activity
-     * @param Puser
-     * @return
-     */
-    static ProfileFragment newInstance(ProfileUser Puser){//pass data from fragment to activity
-        Bundle args = new Bundle();
-        args.putSerializable("Profile", Puser);
+    private ProfileUser FragmentUser = new ProfileUser();
+
+    private String UserId;
+
+    private View rootView;
+    public static ProfileFragment newInstance() {
         ProfileFragment fragment = new ProfileFragment();
-        fragment.setArguments(args);
         return fragment;
     }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.profile_activity,container,false);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
+        showInfo();
+        updateInfo();
+
+        Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getActivity(), WelcomeActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     /**
-     * This method is used to build the fragment
-     * @param savedInstanceState
-     * @return this will return a fragment with object data got from the activity filled in the fragment edittext place.
+     * this method is used to initialize the layout views
      */
+    public void initView(){
+        fullName = rootView.findViewById(R.id.ShowName);
+        PhoneNum = rootView.findViewById(R.id.ShowPhone);
+        AddressLoc = rootView.findViewById(R.id.ShowAddress);
+        image =rootView. findViewById(R.id.HeadPhoto);
+        Edit = rootView.findViewById(R.id.EditProfile);
+        ProfileText = rootView.findViewById(R.id.MyProfileText);
+        ProfileText.setText("My Profile");
+        Logout =rootView. findViewById(R.id.btn_SignOut);
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {  //create a dialog fragment
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.profile_fragment, null); // inflate the layout for this fragment
-        name = view.findViewById(R.id.EditName);
-        phone = view.findViewById(R.id.EditPhone);
-        address = view.findViewById(R.id.EditAddress);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        Bundle arguments=getArguments();
-        if(arguments != null){
-            Puser = (ProfileUser) arguments.getSerializable("Profile");
-            name.setText(Puser.getUserName());
-            phone.setText(Puser.getPhone());
-            address.setText(Puser.getAddress());
-        }
-
-        return builder
-                .setView(view)
-                .setTitle("Edit Information")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String NewName = name.getText().toString();
-                                String NewPhone = phone.getText().toString();
-                                String NewAddress = address.getText().toString();
-
-                                if((NewName.isEmpty() && NewAddress.isEmpty() && NewPhone.isEmpty())) {
-                                    dismiss();
-                                }else if(NewPhone.length()!= 10){
-                                    name.setText(Puser.getPhone());
-                                    HashMap<String, String> Data = new HashMap<>();
-                                    Data.put("Name", NewName);
-                                    //if the new Phone Number is not 10 digits, it will just keep the former one
-                                    Data.put("Phone", Puser.getPhone());
-                                    Data.put("Address", NewAddress);
-                                    Users.document(UserId).set(Data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("Profile Fragment", "DocumentSnapshot successfully written!");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("Profile Update", "Error writing document", e);
-                                        }
-                                    });
-                                }else{
-                                    HashMap<String, String> Data = new HashMap<>();
-                                    Data.put("Name", NewName);
-                                    Data.put("Phone", NewPhone);
-                                    Data.put("Address", NewAddress);
-                                    Users.document(UserId).collection("Profile").document("Information").set(Data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("Profile Fragment", "DocumentSnapshot successfully written!");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("Profile Update", "Error writing document", e);
-                                        }
-                                    });
-                                }
-                            }
-                        }
-
-                ).create();
 
     }
+
+
+    /**
+     * this method is used to show the profile information from Cloud Firestore
+     */
+
+    public void showInfo() {
+
+        FirebaseUser user = myAuth.getCurrentUser();
+        if (user != null) {
+            UserId = user.getUid();
+            Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                    {
+                        Log.d("Success", String.valueOf(doc.getData().get("Name")));
+                        String Name = (String) doc.getData().get("Name");
+                        String Phone = (String) doc.getData().get("Phone");
+                        String Address = (String) doc.getData().get("Address");
+                        fullName.setText(Name);
+                        PhoneNum.setText(Phone);
+                        AddressLoc.setText(Address);
+                    }
+                }
+            });
+        }
+    }
+
+
+    /**
+     * This method is used to set a click listener on Edit button.
+     * If the user click on the button. The activity will call a Fragment to prompt user input new profile information
+     */
+
+    public void updateInfo(){
+        Edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Username = fullName.getText().toString();
+                String UserPhone = PhoneNum.getText().toString();
+                String UserAddress = AddressLoc.getText().toString();
+                FragmentUser.setUserName(Username);
+                FragmentUser.setPhone(UserPhone);
+                FragmentUser.setAddress(UserAddress);
+                ProfileDialogFragment.newInstance(FragmentUser).show(getChildFragmentManager(), "Edit Profile");
+                showInfo();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
 }

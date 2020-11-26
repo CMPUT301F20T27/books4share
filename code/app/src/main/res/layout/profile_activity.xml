@@ -68,39 +68,6 @@
         android:text="Edit" />
 
     <Button
-        android:id="@+id/Home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:layout_marginTop="550dp"
-        android:layout_marginLeft="20dp"/>
-
-    <Button
-        android:id="@+id/Explore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/Home"
-        android:layout_alignBottom="@+id/Home"
-        android:layout_marginLeft="10dp"
-        android:text="Explore" />
-
-    <Button
-        android:id="@+id/Notification"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/Home"
-        android:layout_toRightOf="@id/Explore"
-        android:text="Notification" />
-
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PROFILE"
-        android:layout_alignBottom="@+id/Home"
-        android:layout_toRightOf="@id/Notification"/>
-
-    <Button
         android:id="@+id/btn_SignOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,4 +79,7 @@
         android:layout_alignBottom="@id/MyProfileText"
         android:layout_marginRight="17dp"
         android:text="Log Out" />
+
+
+
 </RelativeLayout>
