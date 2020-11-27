@@ -1,124 +1,180 @@
+// Shanshan Wei is responsible for this part
+// This is to implement the user profile
+
 package com.example.books4share;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
-public class ProfileFragment extends DialogFragment {
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+public class ProfileFragment extends AppCompatActivity{
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference Users = db.collection("Users");
     FirebaseAuth myAuth = FirebaseAuth.getInstance();
-    FirebaseUser user = myAuth.getCurrentUser();
-    String UserId = user.getUid();
 
-    private EditText name;
-    private EditText phone;
-    private EditText address;
-    private ProfileUser Puser;
+    private TextView fullName;
+    private TextView PhoneNum;
+    private TextView AddressLoc;
+    private ImageView image;
+    private TextView ProfileText;
+    Button Edit;
+    Button Logout;
 
-    /**
-     * This method is used to get the object bundle data from the activity
-     * @param Puser
-     * @return
-     */
-    static ProfileFragment newInstance(ProfileUser Puser){//pass data from fragment to activity
-        Bundle args = new Bundle();
-        args.putSerializable("Profile", Puser);
-        ProfileFragment fragment = new ProfileFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ProfileUser FragmentUser = new ProfileUser();
 
-    /**
-     * This method is used to build the fragment
-     * @param savedInstanceState
-     * @return this will return a fragment with object data got from the activity filled in the fragment edittext place.
-     */
+    private String UserId;
 
-    @NonNull
+    BottomNavigationView bottomNavigation;
+
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {  //create a dialog fragment
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.profile_fragment, null); // inflate the layout for this fragment
-        name = view.findViewById(R.id.EditName);
-        phone = view.findViewById(R.id.EditPhone);
-        address = view.findViewById(R.id.EditAddress);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile_activity);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        Bundle arguments=getArguments();
-        if(arguments != null){
-            Puser = (ProfileUser) arguments.getSerializable("Profile");
-            name.setText(Puser.getUserName());
-            phone.setText(Puser.getPhone());
-            address.setText(Puser.getAddress());
-        }
+        Intent intent = getIntent();
 
-        return builder
-                .setView(view)
-                .setTitle("Edit Information")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String NewName = name.getText().toString();
-                                String NewPhone = phone.getText().toString();
-                                String NewAddress = address.getText().toString();
+        initView();
+        showInfo();
+        updateInfo();
 
-                                if((NewName.isEmpty() && NewAddress.isEmpty() && NewPhone.isEmpty())) {
-                                    dismiss();
-                                }else if(NewPhone.length()!= 10){
-                                    name.setText(Puser.getPhone());
-                                    HashMap<String, String> Data = new HashMap<>();
-                                    Data.put("Name", NewName);
-                                    //if the new Phone Number is not 10 digits, it will just keep the former one
-                                    Data.put("Phone", Puser.getPhone());
-                                    Data.put("Address", NewAddress);
-                                    Users.document(UserId).set(Data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("Profile Fragment", "DocumentSnapshot successfully written!");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("Profile Update", "Error writing document", e);
-                                        }
-                                    });
-                                }else{
-                                    HashMap<String, String> Data = new HashMap<>();
-                                    Data.put("Name", NewName);
-                                    Data.put("Phone", NewPhone);
-                                    Data.put("Address", NewAddress);
-                                    Users.document(UserId).collection("Profile").document("Information").set(Data).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("Profile Fragment", "DocumentSnapshot successfully written!");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("Profile Update", "Error writing document", e);
-                                        }
-                                    });
-                                }
-                            }
-                        }
+        Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ProfileFragment.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
-                ).create();
 
     }
+
+    /**
+     * this method is used to initialize the layout views
+     */
+    public void initView(){
+        fullName = findViewById(R.id.ShowName);
+        PhoneNum = findViewById(R.id.ShowPhone);
+        AddressLoc = findViewById(R.id.ShowAddress);
+        image = findViewById(R.id.HeadPhoto);
+        Edit = findViewById(R.id.EditProfile);
+        ProfileText = findViewById(R.id.MyProfileText);
+        ProfileText.setText("My Profile");
+        Logout = findViewById(R.id.btn_SignOut);
+
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        Intent a = new Intent(ProfileFragment.this, HomeActivity.class);
+                        startActivity(a);
+                        break;
+
+                    case R.id.navigation_explore:
+                        Intent b = new Intent(ProfileFragment.this, SearchActivity.class);
+                        startActivity(b);
+                        break;
+
+                    case R.id.navigation_notification:
+                        Intent c = new Intent(ProfileFragment.this, NotificationActivity.class);
+                        startActivity(c);
+                        break;
+
+                    case R.id.navigation_Me:
+                        Intent d = new Intent(ProfileFragment.this, ProfileFragment.class);
+                        startActivity(d);
+                        break;
+
+                }
+
+                return false;
+
+            }
+        });
+    }
+
+
+    /**
+     * this method is used to show the profile information from Cloud Firestore
+     */
+
+    public void showInfo() {
+
+       FirebaseUser user = myAuth.getCurrentUser();
+       if (user != null) {
+           UserId = user.getUid();
+           Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
+               @Override
+               public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                   for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                   {
+                       Log.d("Success", String.valueOf(doc.getData().get("Name")));
+                       String Name = (String) doc.getData().get("Name");
+                       String Phone = (String) doc.getData().get("Phone");
+                       String Address = (String) doc.getData().get("Address");
+                       fullName.setText(Name);
+                       PhoneNum.setText(Phone);
+                       AddressLoc.setText(Address);
+                   }
+               }
+           });
+       }
+    }
+
+
+    /**
+     * This method is used to set a click listener on Edit button.
+     * If the user click on the button. The activity will call a Fragment to prompt user input new profile information
+     */
+
+    public void updateInfo(){
+        Edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String Username = fullName.getText().toString();
+                String UserPhone = PhoneNum.getText().toString();
+                String UserAddress = AddressLoc.getText().toString();
+                FragmentUser.setUserName(Username);
+                FragmentUser.setPhone(UserPhone);
+                FragmentUser.setAddress(UserAddress);
+                ProfileDialogFragment.newInstance(FragmentUser).show(getSupportFragmentManager(), "Edit Profile");
+                showInfo();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
 }

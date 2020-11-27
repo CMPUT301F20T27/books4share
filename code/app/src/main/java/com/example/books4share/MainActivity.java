@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";

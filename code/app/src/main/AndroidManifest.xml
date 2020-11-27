@@ -22,7 +22,7 @@
             android:label="Accepted request">
         </activity>
 
-        <activity android:name=".Profile" />
+        <activity android:name=".ProfileFragment" />
 
         <activity android:name=".SignInfo" />
 

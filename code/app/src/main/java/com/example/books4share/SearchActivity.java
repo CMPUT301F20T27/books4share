@@ -138,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements RequestFragment
                         break;
 
                     case R.id.navigation_Me:
-                        Intent d = new Intent(SearchActivity.this, Profile.class);
+                        Intent d = new Intent(SearchActivity.this, ProfileFragment.class);
                         startActivity(d);
                         break;
 

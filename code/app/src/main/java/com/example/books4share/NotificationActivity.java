@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -114,7 +112,7 @@ public class NotificationActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_Me:
-                        Intent d = new Intent(NotificationActivity.this, Profile.class);
+                        Intent d = new Intent(NotificationActivity.this, ProfileFragment.class);
                         startActivity(d);
                         break;
 
