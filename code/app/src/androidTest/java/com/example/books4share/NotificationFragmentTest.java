@@ -1,12 +1,9 @@
 package com.example.books4share;
 
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.books4share.fragment.NotificationFragment;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -21,28 +18,20 @@ import static org.junit.Assert.assertFalse;
 /**
  * Test class for NotificationActivity. All the UI tests are written here.
  */
-public class NotificationActivityTest {
+public class NotificationFragmentTest {
 
     private Solo solo;
 
-    @Rule
-    public ActivityTestRule<NotificationActivity> rule =
-            new ActivityTestRule<NotificationActivity>(NotificationActivity.class, true, true);
 
-    /**
-     * Runs before all tests and creates solo instance.
-     */
-    @Before
-    public void setUp() {
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
-    }
+
+
 
     /**
      * Check the name of book, borrower and status using assertTrue.
      */
     @Test
     public void checkIncomingList() {
-        solo.assertCurrentActivity("Wrong activity", NotificationActivity.class);
+        solo.assertCurrentActivity("Wrong activity", NotificationFragment.class);
         assertTrue(solo.searchText("book1"));
         assertTrue(solo.searchText("borrower1"));
         assertTrue(solo.searchText("Request from:"));
@@ -54,7 +43,7 @@ public class NotificationActivityTest {
      */
     @Test
     public void checkOutgoingList() {
-        solo.assertCurrentActivity("Wrong activity", NotificationActivity.class);
+        solo.assertCurrentActivity("Wrong activity", NotificationFragment.class);
         assertTrue(solo.searchText("book1"));
         assertTrue(solo.searchText("Pending"));
         assertTrue(solo.searchText("Owner:"));
@@ -66,7 +55,7 @@ public class NotificationActivityTest {
      */
     @Test
     public void checkIncomingPending() {
-        solo.assertCurrentActivity("Wrong activity", NotificationActivity.class);
+        solo.assertCurrentActivity("Wrong activity", NotificationFragment.class);
         solo.clickOnText("borrower1");
         solo.assertCurrentActivity("Wrong activity", AcceptActivity.class);
     }
@@ -76,7 +65,7 @@ public class NotificationActivityTest {
      */
     @Test
     public void checkOutgoingAccepted() {
-        solo.assertCurrentActivity("Wrong activity", NotificationActivity.class);
+        solo.assertCurrentActivity("Wrong activity", NotificationFragment.class);
         solo.clickOnText("owner2");
         solo.assertCurrentActivity("Wrong activity", ViewRequestActivity.class);
     }
@@ -86,11 +75,11 @@ public class NotificationActivityTest {
      */
     @Test
     public void checkBack() {
-        solo.assertCurrentActivity("Wrong activity", NotificationActivity.class);
+        solo.assertCurrentActivity("Wrong activity", NotificationFragment.class);
         solo.clickOnText("borrower1");
         solo.assertCurrentActivity("Wrong activity", AcceptActivity.class);
         solo.clickOnButton("Back");
-        solo.assertCurrentActivity("Wrong activity", NotificationActivity.class);
+        solo.assertCurrentActivity("Wrong activity", NotificationFragment.class);
     }
 
     /**

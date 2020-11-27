@@ -13,18 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.books4share.ProfileFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import static com.example.books4share.Signup.SignUpUser;
 
 public class SignInfo extends AppCompatActivity {
 
@@ -97,7 +94,7 @@ public class SignInfo extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Profile Update", "DocumentSnapshot successfully written!");
-                Intent intent = new Intent(SignInfo.this, Profile.class);
+                Intent intent = new Intent(SignInfo.this, ProfileFragment.class);
                 startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {

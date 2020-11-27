@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.books4share.ProfileFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,7 +52,6 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        Intent intent = getIntent();
 
         initView();
         LoginValidation();
@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = myAuth.getCurrentUser();
-                            Intent intent = new Intent(Login.this, Profile.class);
+                            Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                         }else{
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
