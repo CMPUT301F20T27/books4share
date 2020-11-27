@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity android:name=".AcceptActivity"
             android:label="Pending request">
         </activity>
