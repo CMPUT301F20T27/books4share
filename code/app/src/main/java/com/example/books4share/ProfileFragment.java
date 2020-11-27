@@ -7,8 +7,10 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,9 +18,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 
+import com.example.books4share.ProfileDialogFragment;
+import com.example.books4share.ProfileUser;
+import com.example.books4share.R;
+import com.example.books4share.WelcomeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class ProfileFragment extends AppCompatActivity{
+public class ProfileFragment extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference Users = db.collection("Users");
@@ -48,15 +54,21 @@ public class ProfileFragment extends AppCompatActivity{
 
     private String UserId;
 
-    BottomNavigationView bottomNavigation;
+    private View rootView;
+    public static ProfileFragment newInstance() {
+        ProfileFragment fragment = new ProfileFragment();
+        return fragment;
+    }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.profile_activity,container,false);
+        return rootView;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_activity);
-
-        Intent intent = getIntent();
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initView();
         showInfo();
         updateInfo();
@@ -65,59 +77,27 @@ public class ProfileFragment extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(ProfileFragment.this, MainActivity.class);
+                Intent intent = new Intent(getActivity(), WelcomeActivity.class);
                 startActivity(intent);
             }
         });
-
-
     }
+
 
     /**
      * this method is used to initialize the layout views
      */
     public void initView(){
-        fullName = findViewById(R.id.ShowName);
-        PhoneNum = findViewById(R.id.ShowPhone);
-        AddressLoc = findViewById(R.id.ShowAddress);
-        image = findViewById(R.id.HeadPhoto);
-        Edit = findViewById(R.id.EditProfile);
-        ProfileText = findViewById(R.id.MyProfileText);
+        fullName = rootView.findViewById(R.id.ShowName);
+        PhoneNum = rootView.findViewById(R.id.ShowPhone);
+        AddressLoc = rootView.findViewById(R.id.ShowAddress);
+        image =rootView. findViewById(R.id.HeadPhoto);
+        Edit = rootView.findViewById(R.id.EditProfile);
+        ProfileText = rootView.findViewById(R.id.MyProfileText);
         ProfileText.setText("My Profile");
-        Logout = findViewById(R.id.btn_SignOut);
+        Logout =rootView. findViewById(R.id.btn_SignOut);
 
-        bottomNavigation = (BottomNavigationView) findViewById(R.id.navigationView);
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        Intent a = new Intent(ProfileFragment.this, HomeActivity.class);
-                        startActivity(a);
-                        break;
-
-                    case R.id.navigation_explore:
-                        Intent b = new Intent(ProfileFragment.this, SearchActivity.class);
-                        startActivity(b);
-                        break;
-
-                    case R.id.navigation_notification:
-                        Intent c = new Intent(ProfileFragment.this, NotificationActivity.class);
-                        startActivity(c);
-                        break;
-
-                    case R.id.navigation_Me:
-                        Intent d = new Intent(ProfileFragment.this, ProfileFragment.class);
-                        startActivity(d);
-                        break;
-
-                }
-
-                return false;
-
-            }
-        });
     }
 
 
@@ -127,25 +107,25 @@ public class ProfileFragment extends AppCompatActivity{
 
     public void showInfo() {
 
-       FirebaseUser user = myAuth.getCurrentUser();
-       if (user != null) {
-           UserId = user.getUid();
-           Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
-               @Override
-               public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                   for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                   {
-                       Log.d("Success", String.valueOf(doc.getData().get("Name")));
-                       String Name = (String) doc.getData().get("Name");
-                       String Phone = (String) doc.getData().get("Phone");
-                       String Address = (String) doc.getData().get("Address");
-                       fullName.setText(Name);
-                       PhoneNum.setText(Phone);
-                       AddressLoc.setText(Address);
-                   }
-               }
-           });
-       }
+        FirebaseUser user = myAuth.getCurrentUser();
+        if (user != null) {
+            UserId = user.getUid();
+            Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                    {
+                        Log.d("Success", String.valueOf(doc.getData().get("Name")));
+                        String Name = (String) doc.getData().get("Name");
+                        String Phone = (String) doc.getData().get("Phone");
+                        String Address = (String) doc.getData().get("Address");
+                        fullName.setText(Name);
+                        PhoneNum.setText(Phone);
+                        AddressLoc.setText(Address);
+                    }
+                }
+            });
+        }
     }
 
 
@@ -164,7 +144,7 @@ public class ProfileFragment extends AppCompatActivity{
                 FragmentUser.setUserName(Username);
                 FragmentUser.setPhone(UserPhone);
                 FragmentUser.setAddress(UserAddress);
-                ProfileDialogFragment.newInstance(FragmentUser).show(getSupportFragmentManager(), "Edit Profile");
+                ProfileDialogFragment.newInstance(FragmentUser).show(getChildFragmentManager(), "Edit Profile");
                 showInfo();
             }
         });

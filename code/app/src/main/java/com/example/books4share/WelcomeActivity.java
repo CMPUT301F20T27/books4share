@@ -11,10 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
-
-public class MainActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
@@ -28,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_welcome);
 
 
         ProjectName = findViewById(R.id.project_name);
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent LoginAct = new Intent(MainActivity.this, Login.class);
+                Intent LoginAct = new Intent(WelcomeActivity.this, Login.class);
                 startActivityForResult(LoginAct, 1);
             }
         });
@@ -52,17 +49,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent SignupAct = new Intent(MainActivity.this, Signup.class);
+                Intent SignupAct = new Intent(WelcomeActivity.this, Signup.class);
                 startActivity(SignupAct);
             }
         });
 
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent testAct = new Intent(MainActivity.this, NotificationActivity.class);
-                startActivity(testAct);
-            }
-        });
     }
 }

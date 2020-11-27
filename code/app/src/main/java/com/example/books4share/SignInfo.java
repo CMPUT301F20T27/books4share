@@ -93,7 +93,7 @@ public class SignInfo extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Profile Update", "DocumentSnapshot successfully written!");
-                Intent intent = new Intent(SignInfo.this, ProfileFragment.class);
+                Intent intent = new Intent(SignInfo.this, MainActivity.class);
                 startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
