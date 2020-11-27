@@ -36,7 +36,7 @@ public class ProfileDialogFragment extends DialogFragment {
      * @param Puser
      * @return
      */
-    static ProfileDialogFragment newInstance(ProfileUser Puser){//pass data from fragment to activity
+    public static ProfileDialogFragment newInstance(ProfileUser Puser){//pass data from fragment to activity
         Bundle args = new Bundle();
         args.putSerializable("Profile", Puser);
         ProfileDialogFragment fragment = new ProfileDialogFragment();

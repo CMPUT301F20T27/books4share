@@ -2,7 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.books4share">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,11 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".HomeActivity" />
 
-        <activity android:name=".NotificationActivity"
-            android:label="Notification">
-        </activity>
         <activity android:name=".AcceptActivity"
             android:label="Pending request">
         </activity>
@@ -25,29 +34,32 @@
 
         <activity android:name=".SignInfo" />
 
-        <activity android:name=".SearchActivity"
-            android:label="Search">
-        </activity>
         <activity android:name=".Login"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".WelcomeActivity" />
         </activity>
         <activity android:name=".Signup"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".WelcomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".WelcomeActivity" />
         </activity>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"
+            />
+        <activity android:name=".AddBookActivity"
+            android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".BookDetailActivity"
+            android:theme="@style/AppThemeNoBar"/>
     </application>
 
 </manifest>

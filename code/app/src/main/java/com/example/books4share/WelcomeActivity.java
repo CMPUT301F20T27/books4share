@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.books4share.NotificationFragment;
+
+
 public class WelcomeActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
@@ -54,5 +57,12 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testAct = new Intent(WelcomeActivity.this, NotificationFragment.class);
+                startActivity(testAct);
+            }
+        });
     }
 }

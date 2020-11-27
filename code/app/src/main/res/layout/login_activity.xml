@@ -15,7 +15,6 @@
         android:textSize="30dp" />
 
 
-    />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
@@ -24,6 +23,7 @@
         android:layout_marginLeft="95dp"
         android:layout_marginTop="250dp"
         android:ems="10"
+        android:text="2085615@gmail.com"
         android:inputType="textEmailAddress" />
 
     <TextView
@@ -48,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:text="zqz123"
         android:layout_alignLeft="@id/editTextTextEmailAddress"
         android:layout_marginTop="320dp"
         android:inputType="textPassword" />

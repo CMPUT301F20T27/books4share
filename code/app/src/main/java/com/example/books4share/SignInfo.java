@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.books4share.ProfileFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -93,7 +94,7 @@ public class SignInfo extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Profile Update", "DocumentSnapshot successfully written!");
-                Intent intent = new Intent(SignInfo.this, MainActivity.class);
+                Intent intent = new Intent(SignInfo.this, ProfileFragment.class);
                 startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
