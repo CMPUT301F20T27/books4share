@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment  {
 
         bookAdapter=new BookAdapter(getActivity(), bookDataList);
         bookList.setAdapter(bookAdapter);
-         editText = (EditText)rootView. findViewById(R.id.edit_text);
+        editText = (EditText)rootView. findViewById(R.id.edit_text);
         btnSearch = rootView.findViewById(R.id.btn_search);
         //Once the button is clicked, do search
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -88,15 +88,15 @@ public class SearchFragment extends Fragment  {
             public void onItemClick(int position) {
                 Book book = bookDataList.get(position);
                 if (book.getCurrentStatus().equals("Available")) {
-                    if (book.usersId!= FirebaseAuth.getInstance().getCurrentUser().getUid()){
+                    if (!book.usersId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                         builder
+                        builder
                                 .setTitle("Request")
                                 .setNegativeButton("Cancel", null)
                                 .setPositiveButton("Request", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int i) {
-                                       // book.setRequestId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        // book.setRequestId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                         Notification notification = new Notification();
                                         notification.bookId = book.getId();
                                         notification.borrowId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -130,9 +130,9 @@ public class SearchFragment extends Fragment  {
         if (TextUtils.isEmpty(inputText)){
             return;
         }
+
         bookDataList.clear();
         db.collection("Books")
-                .whereEqualTo("title", inputText)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -140,9 +140,16 @@ public class SearchFragment extends Fragment  {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Book book =    document.toObject(Book.class);
-                                book.setId(document.getId());
+
                                 if (book!=null){
-                                    bookDataList.add(book);
+                                    book.setId(document.getId());
+                                    if (book.title.contains(inputText)||book.title.equals(inputText)
+                                            ||book.author.contains(inputText)||book.author.equals(inputText)){
+                                        if (book.currentStatus.equals("Available")||book.currentStatus.equals("Requested")){
+                                            bookDataList.add(book);
+                                        }
+
+                                    }
 
                                 }
                             }

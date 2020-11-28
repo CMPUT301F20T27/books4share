@@ -42,5 +42,6 @@
     <string name="text_hint_author">Author</string>
     <string name="text_hint_isbn">ISBN</string>
     <string name="text_add_book">Add</string>
+    <string name="google_maps_key">AIzaSyBXD2u0GcXd7EDaZLvhrKRsj5cZIqz2LcM</string>
 
 </resources>

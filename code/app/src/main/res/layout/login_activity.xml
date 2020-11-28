@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,8 +14,6 @@
         android:text="Login"
         android:textSize="30dp" />
 
-
-
     <EditText
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="wrap_content"
@@ -23,7 +21,6 @@
         android:layout_marginLeft="95dp"
         android:layout_marginTop="250dp"
         android:ems="10"
-        android:text="2085615@gmail.com"
         android:inputType="textEmailAddress" />
 
     <TextView
@@ -48,7 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:text="zqz123"
         android:layout_alignLeft="@id/editTextTextEmailAddress"
         android:layout_marginTop="320dp"
         android:inputType="textPassword" />
@@ -71,6 +67,5 @@
         android:layout_alignBottom="@id/login_text"
         android:layout_marginLeft="180dp"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
 
 </RelativeLayout>
