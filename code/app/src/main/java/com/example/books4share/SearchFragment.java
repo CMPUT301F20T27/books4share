@@ -1,5 +1,6 @@
 // Dazhi Zhang is responsible for this part
 // This is to implement search book and send a request
+// Support key word search
 
 package com.example.books4share;
 
