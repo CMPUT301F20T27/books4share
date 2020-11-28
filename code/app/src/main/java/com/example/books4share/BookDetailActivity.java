@@ -106,6 +106,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         findViewById(R.id.Delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +130,37 @@ public class BookDetailActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 }).create().show();
+            }
+        });
+        iv_logo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // US 08.02.01
+                if (book.image!=null){
+                    new AlertDialog.Builder(BookDetailActivity.this)
+                            .setTitle("Delete Image")
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                    db.collection("Books").document(book.getId()).update(
+                                            "image", ""
+                                    ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            finish();
+                                        }
+                                    });
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create().show();
+                }
+                return true;
             }
         });
     }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -94,7 +95,8 @@ public class AddBookActivity extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Data has been added successfully!");
+                                Toast.makeText(AddBookActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                                finish();
 
                             }
                         })
@@ -107,9 +109,6 @@ public class AddBookActivity extends AppCompatActivity {
                             }
                         });
 
-                titleBox.setText("");
-                authorBox.setText("");
-                isbnBox.setText("");
 
 
 
@@ -131,20 +130,22 @@ public class AddBookActivity extends AppCompatActivity {
                             "author", author,
                             "isbn", isbn
                     )
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(Flag,"DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener(){
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(Flag,"DocumentSnapshot successfully deleted!");
+                            Toast.makeText(AddBookActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener(){
 
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(Flag,"Error deleting document", e);
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(Flag,"Error deleting document", e);
 
-                    }
-                });
+                        }
+                    });
         }
     }
 
@@ -162,3 +163,4 @@ public class AddBookActivity extends AppCompatActivity {
 
 
 }
+

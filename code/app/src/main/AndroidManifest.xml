@@ -14,6 +14,13 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -23,11 +30,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <activity android:name=".AcceptActivity"
-            android:label="Pending request">
+            android:theme="@style/AppThemeNoBar">
         </activity>
         <activity android:name=".ViewRequestActivity"
-            android:label="Accepted request">
+            android:label=""
+            android:theme="@style/AppThemeNoBar">
         </activity>
 
 
@@ -59,6 +70,15 @@
             android:theme="@style/AppThemeNoBar"/>
         <activity android:name=".BookDetailActivity"
             android:theme="@style/AppThemeNoBar"/>
+        <activity android:name=".ScanDetailActivity"
+            android:theme="@style/AppThemeNoBar"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity android:name=".MapActivity"/>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.example.books4share.Notification;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -77,14 +79,22 @@ public class NotificationFragment extends Fragment {
         inAdapter.setOnItemClickListener(new NotificationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent = new Intent(getActivity(), AcceptActivity.class);
-                startActivity(intent);
+
+                if (inDataList.get(position).status.equals("pending")){
+                    Intent intent = new Intent(getActivity(), AcceptActivity.class);
+                    intent.putExtra("item",inDataList.get(position));
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(),inDataList.get(position).status,Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         outAdapter.setOnItemClickListener(new NotificationAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(getActivity(), ViewRequestActivity.class);
+                intent.putExtra("item",outDataList.get(position));
                 startActivity(intent);
             }
         });
@@ -96,41 +106,42 @@ public class NotificationFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();;
         CollectionReference bookRef = db.collection("Notification");
         bookRef.whereEqualTo("borrowId", FirebaseAuth.getInstance().getCurrentUser().getUid())
-        .addSnapshotListener(new com.google.firebase.firestore.EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-
-                for (QueryDocumentSnapshot document : value) {
-                    Notification book =    document.toObject(Notification.class);
-                    book.setId(document.getId());
-                    if (book!=null){
-                        outDataList.add(book);
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        outDataList.clear();
+                        for (QueryDocumentSnapshot document : value) {
+                            Notification book =    document.toObject(Notification.class);
+                            book.setId(document.getId());
+                            if (book!=null){
+                                outDataList.add(book);
+                            }
+                        }
+                        outAdapter.notifyDataSetChanged();
                     }
-                }
-                outAdapter.notifyDataSetChanged();
-            }
-        });
+                });
 
     }
     private void initInData(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();;
         CollectionReference bookRef = db.collection("Notification");
         bookRef.whereEqualTo("usersId", FirebaseAuth.getInstance().getCurrentUser().getUid())
-    .addSnapshotListener(new com.google.firebase.firestore.EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        inDataList.clear();
+                        for (QueryDocumentSnapshot document : value) {
+                            Notification book =    document.toObject(Notification.class);
+                            book.setId(document.getId());
+                            if (book!=null){
+                                inDataList.add(book);
+                            }
 
-                for (QueryDocumentSnapshot document : value) {
-                    Notification book =    document.toObject(Notification.class);
-                    book.setId(document.getId());
-                    if (book!=null){
-                        inDataList.add(book);
+                        }
+
+                        inAdapter.notifyDataSetChanged();
                     }
-                }
-
-                inAdapter.notifyDataSetChanged();
-            }
-        });
+                });
 
     }
 
