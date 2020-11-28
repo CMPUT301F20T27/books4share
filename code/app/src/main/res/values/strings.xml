@@ -1,3 +1,46 @@
 <resources>
-    <string name="app_name">books4share</string>
+    <string name="app_name">Books4share</string>
+    <string name="button_back">Back</string>
+    <string name="text_pending_request">Pending request</string>
+    <string name="text_book_name">bookName</string>
+    <string name="text_burrower">"Borrower: "</string>
+    <string name="text_burrower_name">borrowerName</string>
+    <string name="button_accept">Accept</string>
+    <string name="button_decline">Decline</string>
+    <string name="text_notifications">Notifications</string>
+    <string name="text_incoming_requests">Incoming Requests</string>
+    <string name="text_outgoing_requests">Outgoing Requests</string>
+    <string name="button_home">Home</string>
+    <string name="button_explore">Explore</string>
+    <string name="button_notifications">Notif</string>
+    <string name="button_me">Me</string>
+    <string name="text_accepted_request">Accepted request</string>
+    <string name="text_author">Author:</string>
+    <string name="text_book_author">bookAuthor</string>
+    <string name="text_book_description">bookDescription</string>
+    <string name="text_owner">Owner:</string>
+    <string name="text_owner_name">ownerName</string>
+    <string name="text_request_from">Request from:</string>
+    <string name="text_book_status">bookStatus</string>
+    <string name="text_search_for_a_book">Search for a book</string>
+    <string name="text_search">Search</string>
+    <string name="text_my_books">My Books</string>
+    <string name="text_edit">Edit</string>
+    <string name="filter_show_all">All</string>
+    <string name="status_available">Available</string>
+    <string name="status_requested">Requested</string>
+    <string name="status_accepted">Accepted</string>
+    <string name="status_burrowed">Borrowed</string>
+    <string-array name="status_array">
+        <item>@string/filter_show_all</item>
+        <item>@string/status_available</item>
+        <item>@string/status_requested</item>
+        <item>@string/status_accepted</item>
+        <item>@string/status_burrowed</item>
+    </string-array>
+    <string name="text_hint_title">Title</string>
+    <string name="text_hint_author">Author</string>
+    <string name="text_hint_isbn">ISBN</string>
+    <string name="text_add_book">Add</string>
+
 </resources>

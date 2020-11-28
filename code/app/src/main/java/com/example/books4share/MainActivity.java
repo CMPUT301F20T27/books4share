@@ -1,85 +1,120 @@
 package com.example.books4share;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.books4share.HomeFragment;
+import com.example.books4share.NotificationFragment;
+import com.example.books4share.ProfileFragment;
+import com.example.books4share.SearchFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    FrameLayout container;
+    BottomNavigationView mBottomNavigationBar;
+    private static final String FRAGMENT_TAG_APP = "fragment_app";
+    private static final String FRAGMENT_TAG_DISCOVER = "fragment_discover";
+    private static final String FRAGMENT_TAG_NOTIFICATION= "fragment_notification";
+    private static final String FRAGMENT_TAG_MINE = "fragment_profile";
+    private String[] mFragmentTags = new String[]{FRAGMENT_TAG_APP, FRAGMENT_TAG_DISCOVER,FRAGMENT_TAG_NOTIFICATION,FRAGMENT_TAG_MINE};
+    private Fragment mAppFragment;
+    private Fragment mMineFragment;
+    private SearchFragment mSearchFragment;
+    private NotificationFragment mNotificationFragment;
 
-    ListView bookList;
-    Button btnSearch;
-    ArrayAdapter<Books> bookAdapter;
-    ArrayList<Books> bookDataList;
-
-    String[] titles = {"Harry Porter", "The Republic", "The Odyssey", "Lord of the Flies"};
-    String[] authors = {"J.K. Rowling", "Plato", "Homer", "William"};
-    String[] ISBNs = {"1", "2", "3", "4"};
-    String[] status = {"Requested", "Requested", "Unrequested", "Requested"};
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+    }
 
 
-        //Write all books into an ArrayList
-        bookList=findViewById(R.id.bookList);
-        bookDataList=new ArrayList<>();
-        for(int i=0;i<titles.length;i++){
-            bookDataList.add(new Books(titles[i], authors[i], ISBNs[i]));
+    protected void initView() {
+        mBottomNavigationBar = findViewById(R.id.mBottomNavigationView);
+        container = findViewById(R.id.container);
+        mBottomNavigationBar.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    ontBottomSelect(FRAGMENT_TAG_APP);
+                    break;
+                case R.id.navigation_explore:
+                    ontBottomSelect(FRAGMENT_TAG_DISCOVER);
+                    break;
+                case R.id.navigation_notification:
+                    ontBottomSelect(FRAGMENT_TAG_NOTIFICATION);
+                    break;
+                case R.id.navigation_Me:
+                    ontBottomSelect(FRAGMENT_TAG_MINE);
+                    break;
+
+                default:
+                    break;
+            }
+            return true;
+        });
+
+        mBottomNavigationBar.setSelectedItemId(mBottomNavigationBar.getMenu().getItem(0).getItemId());
+
+    }
+
+
+    private void ontBottomSelect(String tag) {
+        switch (tag) {
+
+            case FRAGMENT_TAG_APP:
+                if (mAppFragment == null) {
+                    mAppFragment = HomeFragment.newInstance();
+                }
+                switchFragment(mAppFragment, tag);
+                break;
+            case FRAGMENT_TAG_DISCOVER:
+                if (mSearchFragment == null) {
+                    mSearchFragment = SearchFragment.newInstance();
+                }
+                switchFragment(mSearchFragment, tag);
+                break;
+            case FRAGMENT_TAG_NOTIFICATION:
+                if (mNotificationFragment == null) {
+                    mNotificationFragment = NotificationFragment.newInstance();
+                }
+                switchFragment(mNotificationFragment, tag);
+                break;
+            case FRAGMENT_TAG_MINE:
+                if (mMineFragment == null) {
+                    mMineFragment = ProfileFragment.newInstance();
+                }
+                switchFragment(mMineFragment, tag);
+                break;
+            default:
+                break;
         }
+    }
 
-        bookAdapter=new BookList(this, bookDataList);
-        bookList.setAdapter(bookAdapter);
+    private void switchFragment(Fragment fragment, String tag) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        hideFragments(manager, transaction);
+        if (!fragment.isAdded()) {
+            transaction.add(R.id.container, fragment, tag);
+        }
+        transaction.show(fragment).commit();
+    }
 
-        btnSearch = findViewById(R.id.btn_search);
-        //Once the button is clicked, do search
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            //Detect if the search button is clicked
-            public void onClick(View v) {
-                //Get the content of search box
-                EditText editText = (EditText) findViewById(R.id.edit_text);
-                String inputText = editText.getText().toString();
-                //Delete the book which name is not the input
-                if (!inputText.equals("")){
-                    for(int i=0;i<bookDataList.size();i++) {
-                        if (!bookDataList.get(i).getTitle().equals(inputText)) {
-                            bookDataList.remove(i);
-                            i--;
-                            //Indicate some book(s) is deleted
-                            setTitle("1");
-                        }
-                    }
-                }
-                //Return all books if there is no input
-                else{
-                    bookDataList.clear();
-                    for(int i=0;i<titles.length;i++){
-                        bookDataList.add(new Books(titles[i],authors[i],ISBNs[i]));
-                    }
-                }
-                bookAdapter.notifyDataSetChanged();
+
+    private void hideFragments(FragmentManager fragmentManager, FragmentTransaction transaction) {
+        for (String mFragmentTag : mFragmentTags) {
+            Fragment fragment = fragmentManager.findFragmentByTag(mFragmentTag);
+            if (fragment != null && fragment.isVisible()) {
+                transaction.hide(fragment);
             }
-        });
-        //When a book item is clicked, send a request
-        //Unfinished, I will implement this next time
-        bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "A mock request is sent!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        //Indicate the list is refreshed
-        setTitle("4");
+        }
     }
 }
