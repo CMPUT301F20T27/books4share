@@ -1,5 +1,9 @@
 // Dazhi Zhang is responsible for this part
 // This is to implement search book and send a request
+<<<<<<< HEAD
+// This is the search part!
+=======
+>>>>>>> 877abdfca7ef85efcb783fb66b68fbb28745e08c
 
 package com.example.books4share;
 
