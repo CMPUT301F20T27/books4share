@@ -23,7 +23,6 @@ public class WelcomeActivity extends AppCompatActivity {
     TextView Sentence;
     Button MainLogin;
     Button MainSignup;
-    Button testButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,6 @@ public class WelcomeActivity extends AppCompatActivity {
         Sentence = findViewById(R.id.statement);
         MainLogin = findViewById(R.id.login_button);
         MainSignup = findViewById(R.id.signup_button);
-
-        testButton = findViewById(R.id.new_button);
 
         MainLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,12 +54,5 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent testAct = new Intent(WelcomeActivity.this, NotificationFragment.class);
-                startActivity(testAct);
-            }
-        });
     }
 }

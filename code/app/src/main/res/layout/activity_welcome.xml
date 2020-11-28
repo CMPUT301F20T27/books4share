@@ -59,15 +59,6 @@
 
         />
 
-    <Button
-        android:id="@+id/new_button"
-        android:layout_width="153dp"
-        android:layout_height="52dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="48dp"
-        android:text="Test Activity" />
-
 </RelativeLayout>
 
 
