@@ -1,7 +1,4 @@
 package com.example.books4share;
-/**
- * @author Wei Shanshan
- */
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.books4share.fragment.ProfileFragment;
+import com.example.books4share.ProfileFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,9 +57,11 @@ public class SignInfo extends AppCompatActivity {
 
 
     }
+
     /**
      * This method is to initialize the layout views
      */
+
     public void initView(){
         photo = findViewById(R.id.imageView2);
         title = findViewById(R.id.fillin);
@@ -75,6 +74,7 @@ public class SignInfo extends AppCompatActivity {
         Confirm = findViewById(R.id.ConfirmButton);
         Clear = findViewById(R.id.ClearButton);
     }
+
     /**
      * This method is used to write the profile information on Firestore Cloud
      * @param strName
@@ -105,6 +105,7 @@ public class SignInfo extends AppCompatActivity {
         });
 
     }
+
     /**
      * This method is used to check whether the input is right format
      */

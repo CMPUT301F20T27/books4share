@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.example.books4share.bean.Book;
-import com.example.books4share.bean.Notification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -41,11 +39,8 @@ public class ScanDetailActivity extends AppCompatActivity {
         initView();
         getBookInfoByBookId();
     }
-
-    /**
-     * load the image to firestore by finding its corresponding book document
-     */
     private void getBookInfoByBookId() {
+
         DocumentReference docRef = db.collection("Books").document(notification.bookId);
         docRef
                 .get()
@@ -70,10 +65,8 @@ public class ScanDetailActivity extends AppCompatActivity {
                 });
     }
 
-    /**
-     * initialize thw view according to firestore data
-     */
     private void initView() {
+
         Toolbar mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitle("Book Detail");
         setSupportActionBar(mToolbar);

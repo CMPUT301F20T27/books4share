@@ -1,6 +1,5 @@
-/**
- * @author Dazhi Zhang
- */
+// Zexin Cai is responsible for this part
+// This is to show detailed information about the user's accepted request.
 
 package com.example.books4share;
 
@@ -21,8 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.example.books4share.bean.Book;
-import com.example.books4share.bean.Notification;
+import com.example.books4share.Book;
+import com.example.books4share.Notification;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,9 +59,6 @@ public class ViewRequestActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * initialize the view base on firestore data
-     */
     private void initView() {
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
@@ -98,9 +94,6 @@ public class ViewRequestActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * get the book information
-     */
     private void getBookInfoByBookId() {
 
         DocumentReference docRef = db.collection("Books").document(notification.bookId);
@@ -124,10 +117,6 @@ public class ViewRequestActivity extends AppCompatActivity {
                 });
     }
 
-    /**
-     * get the book owner information
-     */
-
     private void getBookOwnInfo() {
 
         db.collection("Users").document(book.usersId).collection("Profile")
@@ -143,9 +132,6 @@ public class ViewRequestActivity extends AppCompatActivity {
                 });
     }
 
-    /**
-     * Set up books information on view
-     */
     private void setBookInfo(){
         Glide.with(this).load(book.image).into(iv_logo);
 
