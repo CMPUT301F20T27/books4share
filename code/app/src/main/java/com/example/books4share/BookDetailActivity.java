@@ -34,6 +34,9 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Shows the detail of a book
+ */
 public class BookDetailActivity extends AppCompatActivity {
 
     private Book book;

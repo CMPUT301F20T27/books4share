@@ -4,6 +4,10 @@
 
 package com.example.books4share.fragment;
 
+/**
+ * @author Dazhi Zhang
+ */
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -34,6 +38,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
+/**
+ * This part does the search and request functions
+ */
 
 public class SearchFragment extends Fragment  {
 

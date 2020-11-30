@@ -14,14 +14,6 @@ public class Book  implements Serializable {
     public String currentStatus;
     public String usersId;
     public String image;
-  //  String[] status = {"Borrowed", "Requested", "Available", "Available"};
-//    public static enum Status{
-//        AVAILABLE, REQUESTED, ACCEPTED, BORROWED;
-//    }
-//    available：
-//    requested：
-//    accepted：
-//    borrowed：
 
     public String getId() {
         return id;

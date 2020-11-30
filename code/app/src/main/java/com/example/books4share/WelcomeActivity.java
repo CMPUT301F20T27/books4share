@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.example.books4share.fragment.NotificationFragment;
 
-
+/**
+ * This class shows the first page with sign up and log in buttons
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";

@@ -15,6 +15,9 @@ import com.example.books4share.fragment.ProfileFragment;
 import com.example.books4share.fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * Initiate the home page with add book function and 4 bottom navigation buttons
+ */
 public class MainActivity extends AppCompatActivity {
     FrameLayout container;
     BottomNavigationView mBottomNavigationBar;

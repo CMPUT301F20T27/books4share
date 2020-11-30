@@ -22,6 +22,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
+/**
+ * This part allows users to edit their profile
+ */
 public class ProfileDialogFragment extends DialogFragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();

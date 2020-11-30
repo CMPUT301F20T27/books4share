@@ -31,6 +31,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.HashMap;
 
+/**
+ * This class does the signup function
+ */
 public class Signup extends AppCompatActivity {
 
     public static final String SignUpUser = "SignUp";
