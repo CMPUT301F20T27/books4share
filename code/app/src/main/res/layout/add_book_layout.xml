@@ -44,7 +44,7 @@
         android:background="@color/colorPrimary"
         android:layout_margin="26dp"
         android:textColor="@color/white"
-        android:text="Confirm"
+        android:text="Submit"
         />
 
 </LinearLayout>

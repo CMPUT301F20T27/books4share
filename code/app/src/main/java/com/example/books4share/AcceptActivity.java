@@ -1,7 +1,4 @@
-// Zexin Cai is responsible for this part
-// It is to handle the incoming request of the user
-// The user can choose to accept, decline or back
-// There are no follow-up activities for accept and decline
+
 
 package com.example.books4share;
 
@@ -28,8 +25,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.books4share.Book;
-import com.example.books4share.Notification;
+import com.example.books4share.bean.Book;
+import com.example.books4share.bean.Notification;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,6 +45,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * If the users click on the notification, this activity will show up to let user choose to accept the request or decline the request
+ */
 
 public class AcceptActivity extends AppCompatActivity {
     private Notification notification;
@@ -71,9 +72,11 @@ public class AcceptActivity extends AppCompatActivity {
         Intent intent = getIntent();
         notification = (Notification) intent.getSerializableExtra("item");
         initView();
-
-
     }
+
+    /**
+     * Initialize the activity view
+     */
 
     private void initView() {
 
@@ -82,6 +85,10 @@ public class AcceptActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            /**
+             * back to last activity
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 finish();
@@ -103,6 +110,10 @@ public class AcceptActivity extends AppCompatActivity {
         }
         getBookBorrowerInfo();
         findViewById(R.id.btImage).setOnClickListener(new View.OnClickListener() {
+            /**
+             * switch to MapActivity
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 Intent intent =  new Intent(AcceptActivity.this,MapActivity.class);
@@ -111,6 +122,10 @@ public class AcceptActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.Delete).setOnClickListener(new View.OnClickListener() {
+            /**
+             * Forming a alert dialog to warn the user and change the status from requested to available
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(AcceptActivity.this)
@@ -160,6 +175,11 @@ public class AcceptActivity extends AppCompatActivity {
 
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    /**
+                     * close the dialog
+                     * @param dialog
+                     * @param which
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -169,68 +189,83 @@ public class AcceptActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * get the result data bundle from the activity that is switched before
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==100&&resultCode==RESULT_OK){
-            String receiveLocation=  data.getStringExtra("address");
-            if (!TextUtils.isEmpty(receiveLocation)){
-                new AlertDialog.Builder(this)
-                        .setTitle("Alert")
-                        .setMessage("The receiving place for borrowing books is in "+receiveLocation)
-                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                db  .collection("Books") .document(book.getId())
-                                        .update(
-                                                "currentStatus", "accepted"
-                                        )
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                db  .collection("Notification")
-                                                        .document(notification.getId())
-                                                        .update(
-                                                                "status", "accepted",
-                                                                "receiveLocation", receiveLocation
-                                                        )
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Toast.makeText(AcceptActivity.this,"Success",Toast.LENGTH_SHORT).show();
-                                                                finish();
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener(){
+           String receiveLocation=  data.getStringExtra("address");
+           if (!TextUtils.isEmpty(receiveLocation)){
+               new AlertDialog.Builder(this)
+                       .setTitle("Alert")
+                       .setMessage("The receiving place for borrowing books is in "+receiveLocation)
+                       .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                           /**
+                            * update the book current status to accepted
+                            * @param dialog
+                            * @param which
+                            */
+                           @Override
+                           public void onClick(DialogInterface dialog, int which) {
+                               dialog.dismiss();
+                               db  .collection("Books") .document(book.getId())
+                                       .update(
+                                               "currentStatus", "accepted"
+                                       )
+                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                           @Override
+                                           public void onSuccess(Void aVoid) {
+                                               db  .collection("Notification")
+                                                       .document(notification.getId())
+                                                       .update(
+                                                               "status", "accepted",
+                                                               "receiveLocation", receiveLocation
+                                                       )
+                                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                           @Override
+                                                           public void onSuccess(Void aVoid) {
+                                                               Toast.makeText(AcceptActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                                                               finish();
+                                                           }
+                                                       })
+                                                       .addOnFailureListener(new OnFailureListener(){
 
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
+                                                           @Override
+                                                           public void onFailure(@NonNull Exception e) {
 
-                                                            }
-                                                        });
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener(){
+                                                           }
+                                                       });
+                                           }
+                                       })
+                                       .addOnFailureListener(new OnFailureListener(){
 
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
+                                           @Override
+                                           public void onFailure(@NonNull Exception e) {
 
 
-                                            }
-                                        });
+                                           }
+                                       });
 
-                            }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                           }
+                       }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                }).create().show();
-            }
+                   }
+               }).create().show();
+           }
         }
     }
 
+    /**
+     * This method is used to get borrower information from firestore
+     */
     private void getBookBorrowerInfo() {
         db.collection("Users").document(notification.borrowId).collection("Profile")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -247,6 +282,10 @@ public class AcceptActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * This method is used to get requested book information from firestore
+     */
+
     private void getBookInfoByBookId() {
 
         DocumentReference docRef = db.collection("Books").document(notification.bookId);
@@ -257,11 +296,11 @@ public class AcceptActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            book =   document.toObject(Book.class);
-                            book.setId(document.getId());
+                              book =   document.toObject(Book.class);
+                              book.setId(document.getId());
                             getBookOwnInfo();
                             if(book!=null){
-                                setBookInfo();
+                              setBookInfo();
                             }
                         } else {
 
@@ -270,6 +309,9 @@ public class AcceptActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * This method is used to get book owner information
+     */
     private void getBookOwnInfo() {
 
         db.collection("Users").document(book.usersId).collection("Profile")
@@ -285,6 +327,9 @@ public class AcceptActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * set up the book information: loading images, set author, isbn and title
+     */
     private void setBookInfo(){
         Glide.with(this).load(book.image).into(iv_logo);
 

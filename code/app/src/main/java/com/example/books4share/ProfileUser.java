@@ -1,6 +1,13 @@
 package com.example.books4share;
+/**
+ * @author Wei Shanshan
+ */
 
 import java.io.Serializable;
+
+/**
+ * This class is user's contact information
+ */
 
 public class ProfileUser implements Serializable {
     private String userName;

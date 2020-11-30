@@ -1,5 +1,6 @@
-// Shanshan Wei is responsible for this part
-// This is to implement activities about Log in and Sign up
+/**
+ * @author Wei Shanshan
+ */
 
 package com.example.books4share;
 
@@ -11,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.books4share.NotificationFragment;
+import com.example.books4share.fragment.NotificationFragment;
 
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
     TextView Sentence;
     Button MainLogin;
     Button MainSignup;
+    Button testButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,13 @@ public class WelcomeActivity extends AppCompatActivity {
         MainLogin = findViewById(R.id.login_button);
         MainSignup = findViewById(R.id.signup_button);
 
+
+
         MainLogin.setOnClickListener(new View.OnClickListener() {
+            /**
+             * switch to Login page
+             * @param v
+             */
             @Override
             public void onClick(View v) {
 
@@ -46,6 +54,10 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
         MainSignup.setOnClickListener(new View.OnClickListener() {
+            /**
+             * switch to sign up page
+             * @param v
+             */
             @Override
             public void onClick(View v) {
 

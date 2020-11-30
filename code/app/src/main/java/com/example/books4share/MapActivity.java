@@ -22,11 +22,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +58,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String[] permissions = new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.ACCESS_FINE_LOCATION};
     List<String> mPermissionList = new ArrayList<>();
+
+    /**
+     * inflate the layout view of map fragment
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +70,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-
     }
 
 
+    /**
+     * check the two permissions
+     * if two permissions are granted, this will call setMap function
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
@@ -89,6 +96,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * initialize the map view and set some click listeners
+     */
     @SuppressLint("MissingPermission")
     private void setMap(){
         googleMap.setMyLocationEnabled(true);
@@ -124,7 +134,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-
+    /**
+     * check the permission request result
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
@@ -155,6 +170,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return false;
     }
 
+    /**
+     * locate the location
+     * @param location
+     */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
 
@@ -164,6 +183,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
+    /**
+     * Set up a on-Map click listener
+     * @param latLng
+     */
     @Override
     public void onMapClick(LatLng latLng) {
         googleMap.clear();

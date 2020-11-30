@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.books4share.HomeFragment;
-import com.example.books4share.NotificationFragment;
-import com.example.books4share.ProfileFragment;
-import com.example.books4share.SearchFragment;
+import com.example.books4share.fragment.HomeFragment;
+import com.example.books4share.fragment.NotificationFragment;
+import com.example.books4share.fragment.ProfileFragment;
+import com.example.books4share.fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
-
+    /**
+     * initialize the activity view
+     */
     protected void initView() {
         mBottomNavigationBar = findViewById(R.id.mBottomNavigationView);
         container = findViewById(R.id.container);
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * NavigationBar listener
+     * @param tag
+     */
     private void ontBottomSelect(String tag) {
         switch (tag) {
 
@@ -97,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
     private void switchFragment(Fragment fragment, String tag) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

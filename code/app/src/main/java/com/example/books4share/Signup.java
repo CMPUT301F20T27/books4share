@@ -1,5 +1,7 @@
 package com.example.books4share;
-
+/**
+ * @author Wei Shanshan
+ */
 
 import android.content.Intent;
 import android.os.Bundle;

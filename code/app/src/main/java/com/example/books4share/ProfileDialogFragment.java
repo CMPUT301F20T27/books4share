@@ -1,4 +1,7 @@
 package com.example.books4share;
+/**
+ * @author Wei Shanshan
+ */
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
+
 public class ProfileDialogFragment extends DialogFragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -30,7 +34,6 @@ public class ProfileDialogFragment extends DialogFragment {
     private EditText phone;
     private EditText address;
     private ProfileUser Puser;
-
     /**
      * This method is used to get the object bundle data from the activity
      * @param Puser
@@ -43,13 +46,11 @@ public class ProfileDialogFragment extends DialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     /**
      * This method is used to build the fragment
      * @param savedInstanceState
      * @return this will return a fragment with object data got from the activity filled in the fragment edittext place.
      */
-
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {  //create a dialog fragment

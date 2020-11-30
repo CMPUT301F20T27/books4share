@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.books4share.Book;
+import com.example.books4share.bean.Book;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
+/**
+ * This class is used to add a new book to the book bank
+ */
 public class AddBookActivity extends AppCompatActivity {
     private EditText titleBox;
     private EditText authorBox;
@@ -71,7 +74,9 @@ public class AddBookActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Adding new book with available status to Books collection on firestore if it is valid
+     */
 
     private void submit() {
         if (book==null) {
@@ -96,7 +101,7 @@ public class AddBookActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(AddBookActivity.this,"Success",Toast.LENGTH_SHORT).show();
-                                finish();
+                              finish();
 
                             }
                         })
@@ -130,26 +135,29 @@ public class AddBookActivity extends AppCompatActivity {
                             "author", author,
                             "isbn", isbn
                     )
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(Flag,"DocumentSnapshot successfully deleted!");
-                            Toast.makeText(AddBookActivity.this,"Success",Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener(){
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(Flag,"DocumentSnapshot successfully deleted!");
+                        Toast.makeText(AddBookActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener(){
 
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(Flag,"Error deleting document", e);
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(Flag,"Error deleting document", e);
 
-                        }
-                    });
+                    }
+                });
         }
     }
 
-
+    /**
+     * This method is used to check whether the adding book's information is valid
+     * @return
+     */
     /* Check if all inputs are valid*/
     public String checkInput() {
         if (titleBox.getText().toString().length() == 0)
@@ -163,4 +171,3 @@ public class AddBookActivity extends AppCompatActivity {
 
 
 }
-

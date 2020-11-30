@@ -21,7 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.books4share.Book;
+import com.example.books4share.bean.Book;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,6 +58,9 @@ public class BookDetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initialize the activity view
+     */
     private void initView() {
 
         Toolbar mToolbar = findViewById(R.id.toolbar);
@@ -136,34 +139,38 @@ public class BookDetailActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
                 // US 08.02.01
-                if (book.image!=null){
-                    new AlertDialog.Builder(BookDetailActivity.this)
-                            .setTitle("Delete Image")
-                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                    db.collection("Books").document(book.getId()).update(
-                                            "image", ""
-                                    ).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            finish();
-                                        }
-                                    });
-                                }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
-                }
+               if (book.image!=null){
+                   new AlertDialog.Builder(BookDetailActivity.this)
+                           .setTitle("Delete Image")
+                           .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   dialog.dismiss();
+                                   FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                   db.collection("Books").document(book.getId()).update(
+                                           "image", ""
+                                   ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                       @Override
+                                       public void onSuccess(Void aVoid) {
+                                           finish();
+                                       }
+                                   });
+                               }
+                           }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                       }
+                   }).create().show();
+               }
                 return true;
             }
         });
     }
+
+    /**
+     * open the image gallery
+     */
     public void loadImage(){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -171,6 +178,7 @@ public class BookDetailActivity extends AppCompatActivity {
             startActivityForResult(intent, 99);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
@@ -187,7 +195,12 @@ public class BookDetailActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
+    /**
+     * get the image data  and upload image if the resultCode is Result_OK
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -205,6 +218,13 @@ public class BookDetailActivity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * Upload the image data into Storage, since firestore doesn't support image type
+     * https://github.com/bumptech/glide
+     * glide is a image loading library
+     * @param selectedUri
+     */
     private void upload(Uri selectedUri) {
         mProgressDialog.show();
         StorageReference mStoreReference = FirebaseStorage.getInstance().getReference();
