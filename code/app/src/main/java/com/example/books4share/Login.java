@@ -24,9 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-/**
- * This class is used to do the login part
- */
+
 public class Login extends AppCompatActivity {
 
     public static final String LoginUserEmail = "LoginEmail";

@@ -4,10 +4,6 @@
 
 package com.example.books4share.fragment;
 
-/**
- * @author Dazhi Zhang
- */
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -39,10 +35,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-/**
- * This part does the search and request functions
- */
-
 public class SearchFragment extends Fragment  {
 
     RecyclerView bookList;
@@ -51,7 +43,6 @@ public class SearchFragment extends Fragment  {
     ArrayList<Book> bookDataList;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    //String[] status = {"Borrowed", "Requested", "Available", "Pending"};
 
     private View rootView;
     private EditText editText;

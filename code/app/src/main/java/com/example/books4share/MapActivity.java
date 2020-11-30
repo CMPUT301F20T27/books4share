@@ -33,9 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Open a map that allows user to select the location
- */
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnPoiClickListener, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener, GoogleMap.OnMapClickListener{
 
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000 * 60;

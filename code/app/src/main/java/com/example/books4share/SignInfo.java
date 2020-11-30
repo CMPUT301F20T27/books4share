@@ -26,9 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-/**
- * This part reads the signin information
- */
 public class SignInfo extends AppCompatActivity {
 
     public static final String SignUpInfo = "SignInfo";

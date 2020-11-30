@@ -35,9 +35,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-/**
- * This class shows all the incoming requests and outgoing requests
- */
 public class ViewRequestActivity extends AppCompatActivity {
 
     private Notification notification;

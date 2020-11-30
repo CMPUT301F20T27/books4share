@@ -21,9 +21,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-/**
- * Open the camera and scan
- */
 public class ScanDetailActivity extends AppCompatActivity {
 
     private Notification notification;
