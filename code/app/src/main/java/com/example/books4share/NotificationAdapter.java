@@ -1,6 +1,7 @@
 package com.example.books4share;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder>  {
+    private String TAG = NotificationAdapter.class.getSimpleName();
     ArrayList<Notification> books ;
     ArrayList<Notification> filtersBooks ;
     Context context ;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();;
+
     public NotificationAdapter(Context context, ArrayList<Notification> books){
         this.books = books;
         this.filtersBooks = books;
@@ -70,7 +72,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 .fallback(R.drawable.error_img)
                 .error(R.drawable.error_img);
 
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();;
         DocumentReference docRef = db.collection("Books").document(notification.bookId);
         docRef
                 .get()
@@ -79,11 +81,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            Book  book =     document.toObject(Book.class);
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                            Book  book =   document.toObject(Book.class);
                             if(book!=null){
                                 holder.tvName.setText(book.getTitle()+"("+book.getAuthor()+")");
                                 holder.tvISBN.setText(book.getIsbn());
-
+                                notification.book = book;
                                 Glide.with(context).load(book.image).apply(options).into(holder.ivLogo);
                             }
                         } else {

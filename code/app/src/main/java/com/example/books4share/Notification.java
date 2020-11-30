@@ -1,6 +1,8 @@
 package com.example.books4share;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
 
 
     //pending，accepted，declined
@@ -9,7 +11,18 @@ public class Notification {
     public String usersId;
     public String bookId;
     public String borrowId;
+    public String receiveLocation;
     public Book book;
+
+
+
+    public String getReceiveLocation() {
+        return receiveLocation;
+    }
+
+    public void setReceiveLocation(String receiveLocation) {
+        this.receiveLocation = receiveLocation;
+    }
 
     public Book getBook() {
         return book;

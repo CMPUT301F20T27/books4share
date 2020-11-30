@@ -107,25 +107,25 @@ public class ProfileFragment extends Fragment {
 
     public void showInfo() {
 
-       FirebaseUser user = myAuth.getCurrentUser();
-       if (user != null) {
-           UserId = user.getUid();
-           Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
-               @Override
-               public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                   for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
-                   {
-                       Log.d("Success", String.valueOf(doc.getData().get("Name")));
-                       String Name = (String) doc.getData().get("Name");
-                       String Phone = (String) doc.getData().get("Phone");
-                       String Address = (String) doc.getData().get("Address");
-                       fullName.setText(Name);
-                       PhoneNum.setText(Phone);
-                       AddressLoc.setText(Address);
-                   }
-               }
-           });
-       }
+        FirebaseUser user = myAuth.getCurrentUser();
+        if (user != null) {
+            UserId = user.getUid();
+            Users.document(UserId).collection("Profile").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                    {
+                        Log.d("Success", String.valueOf(doc.getData().get("Name")));
+                        String Name = (String) doc.getData().get("Name");
+                        String Phone = (String) doc.getData().get("Phone");
+                        String Address = (String) doc.getData().get("Address");
+                        fullName.setText(Name);
+                        PhoneNum.setText(Phone);
+                        AddressLoc.setText(Address);
+                    }
+                }
+            });
+        }
     }
 
 
@@ -149,12 +149,5 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
-
-
-
-
-
-
 
 }
