@@ -116,9 +116,17 @@ public class SearchFragment extends Fragment  {
                     }
 
                 } else if (book.getCurrentStatus().equals("Requested")) {
-                    Toast.makeText(getActivity(), "You have requested this book, please try another one", Toast.LENGTH_SHORT).show();
+                    if (!book.usersId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        Toast.makeText(getActivity(), "You have requested this book, please try another one", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getActivity(), "This book is your own, please try another one", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (book.getCurrentStatus().equals("Borrowed")) {
-                    Toast.makeText(getActivity(), "This book has been borrowed by others", Toast.LENGTH_SHORT).show();
+                    if (!book.usersId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        Toast.makeText(getActivity(), "This book has been borrowed by others", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getActivity(), "This book is your own, please try another one", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
